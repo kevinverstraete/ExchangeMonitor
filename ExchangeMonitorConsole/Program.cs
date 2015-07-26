@@ -38,9 +38,6 @@ namespace ExchangeMonitorConsole
                 var result = DataCatcher.Catch(ticker);
                 Console.WriteLine(result.ToString());
 
-                Console.WriteLine("\nBollinger");
-                var bollinger = BollingerCatcher.Catch(ticker);
-                Console.WriteLine(bollinger.ToString());
             }
         } 
     }

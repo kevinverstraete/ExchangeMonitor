@@ -87,6 +87,12 @@
   <ItemGroup>
     <Content Include="Financial.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ExchangeMonitor.Engine\ExchangeMonitor.Engine.csproj">
+      <Project>{a72f115f-26c4-45c2-b5e7-9e19a8ab3691}</Project>
+      <Name>ExchangeMonitor.Engine</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -26,17 +26,18 @@ namespace ExchangeMonitor
             materialSkinManager.Theme = MaterialSkinManager.Themes.DARK;
             materialSkinManager.ColorScheme = 
               new ColorScheme(Primary.Grey800, Primary.Grey900, Primary.Grey500, Accent.LightBlue200, TextShade.WHITE);
-
-            _dataController.AddTickers("GOOG");
-            _dataController.AddTickers("EURUSD=X");
+            
+            
+            //_dataController.AddTickers("GOOG");
+            //_dataController.AddTickers("EURUSD=X");
             _dataController.DataFetched += _dataControllerDataFetched;
         }
 
+        #region AddDataToGrid
         private void _dataControllerDataFetched(object sender, EventArgs e) {
           var data = (DataControllerEventArgs)e;
             AddDataToGrid(data.Data);
         }
-
         private void AddDataToGrid(ExchangeMonitor.Engine.ViewModel.Data data) {
              int rowIndex = -1;
             foreach (DataGridViewRow row in DataGrid.Rows) {
@@ -45,18 +46,14 @@ namespace ExchangeMonitor
               }
             }
 
-            string[] rowToAdd = new string[] { "Dude", "wheres", "my", "car" };
-            try {
-              
-            DataGrid.Rows.Add(rowToAdd);
+            if (rowIndex != -1) {
+              SetRowValues(rowIndex, data);
             }
-            catch (Exception ex) {
-              
-              throw;
+            else {
+              SetRowValues(DataGrid.Rows.Add(), data);
             }
             DataGrid.Refresh();
         }
-
         private void SetRowValues(int index, ExchangeMonitor.Engine.ViewModel.Data data) {
           DataGrid.Rows[index].Cells[0].Value = DateTime.Now.ToString();
           DataGrid.Rows[index].Cells[1].Value = data.Ticker;
@@ -65,10 +62,32 @@ namespace ExchangeMonitor
           DataGrid.Rows[index].Cells[4].Value = data.BollingerUpper.ToString();
           DataGrid.Rows[index].Cells[5].Value = data.BollingerLower.ToString();
         }
+        #endregion AddDataToGrid
 
-        private void timer1_Tick(object sender, EventArgs e)
+        private void TimerPull_Tick(object sender, EventArgs e)
         {
             _dataController.Pull();
+        }
+
+        private void button1_Click(object sender, EventArgs e) {
+          panel1.Show();
+        }
+
+        private void button3_Click(object sender, EventArgs e) {
+          panel1.Hide();
+        }
+
+        private void button2_Click(object sender, EventArgs e) {
+          _dataController.AddTickers(textBox1.Text);
+          panel1.Hide();
+        }
+
+        private void button4_Click(object sender, EventArgs e) {
+          panel2.Show();
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e) {
+          
         }
     }
 }

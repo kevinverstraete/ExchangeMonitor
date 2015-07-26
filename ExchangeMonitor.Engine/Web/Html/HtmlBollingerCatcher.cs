@@ -20,6 +20,7 @@ namespace ExchangeMonitor.Engine.Web.Html
 
             try
             {
+                /*
                 string url = string.Format(_uri, ticker);
                 url = url + _uriAppend;
                 var client = new WebClient();
@@ -48,8 +49,8 @@ namespace ExchangeMonitor.Engine.Web.Html
                 if (bollingerNode!= null){
                     var innerHtml = bollingerNode.InnerHtml;
                 }
-
-                return response;
+                */
+                return new HtmlBollingerResponse();
             }
             catch
             {

@@ -1,0 +1,37 @@
+﻿Quotes: http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.quotes%20where%20symbol%20in%20%28%22FB%22%29%0A%09%09&env=http%3A%2F%2Fdatatables.org%2Falltables.env
+(low refresh)
+according to the site: https://finance.yahoo.com/q;_ylt=AoivMzMerLlOYiNZ80nVPS31xcZ_;_ylu=X3oDMTFvb2JlMXQ3BHNlYwNVSCAzIERlc2t0b3AgU2VhcmNoIDExBHNsawNVSCAzIERlc2t0b3AgRW50ZXIgQnV0dG9u?uhb=uhb2&fr=uh3_finance_vert_gs&type=2button&s=FB
+
+<Open>87.67</Open>
+<PreviousClose>87.88</PreviousClose>
+
+
+Xchange: http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.xchange%20where%20pair%20in%20(%22USDEUR%22,%20%22EURUSD%22)&env=store://datatables.org/alltableswithkeys
+(high refresh)
+
+unknown: http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.quoteslist%20where%20symbol%20in%20%28%22FB%22%29%0A%09%09&env=http%3A%2F%2Fdatatables.org%2Falltables.env
+(high refrsh)
+
+http://www.jarloo.com/yahoo_finance/
+
+
+install html agilitypack
+
+var client = new WebClient();
+string reply = client.DownloadString(url);
+var doc = new HtmlDocument();
+doc.LoadHtml(reply);
+HtmlNode specificNode = doc.GetElementbyId("yfi_rt_quote_summary");
+
+
+Console.WriteLine(specificNode.InnerHtml);
+
+foreach (var s in specificNode.ChildNodes)
+{
+foreach (var s1 in s.Attributes)
+{
+if (s1.Name.ToUpper() == "CLASS") if (s1.Value=="hd")
+Console.WriteLine(s.InnerHtml);
+}
+
+}

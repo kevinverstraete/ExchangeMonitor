@@ -11,7 +11,9 @@ namespace ExchangeMonitor.Engine.Controller
     public class DataController
     {
         #region private members
+        private int _interval;
         private Dictionary<string, DataControllerEventArgs> _tickers = new Dictionary<string, DataControllerEventArgs>();
+        private Dictionary<string, ThreadToRetriever> _threads = new Dictionary<string, ThreadToRetriever>();
         #endregion private members
 
         #region events
@@ -22,31 +24,46 @@ namespace ExchangeMonitor.Engine.Controller
         }
         #endregion events
 
-        #region Pull
+        #region ctor
+        public DataController()
+        {
+            _interval = 5000;
+        }
+        public DataController(int interval) : this()
+        {
+            if (interval > 0) _interval = interval;
+        }
+        #endregion ctor
+
+        #region PullAll
         public void Pull()
         {
             foreach (var item in _tickers)
             {
-                var webData = Web.DataCatcher.Catch(item.Key);
-                var webInfo = Web.InfoCatcher.Catch(item.Key);
-                var data = new ViewModel.Data()
+                if (!_threads.ContainsKey(item.Key))
                 {
-                    Ticker = item.Key,
-                    StockExchange = webInfo.StockExchange,
-                    Name = webData.Name,
-                    Rate = webData.Rate,
-                };
-                OnDataFetched(new DataControllerEventArgs() { Data = data, Success = webData.Success });
+                    var ttr = new ThreadToRetriever();
+                    ttr.DataRetriever = new DataRetriever(item.Key, DataPulledByRetriever);
+                    ttr.Thread = new Thread(new ThreadStart(ttr.DataRetriever.Run));
+                    _threads.Add(item.Key,ttr);
+                    ttr.Thread.Start();
+                }
             }
         }
-        #endregion Timer
+        #endregion PullAll
 
-        #region Alarm
-        private void DataControllerDataFetched(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
+        #region PullData
+        private bool DataPulledByRetriever(bool success, ViewModel.Data data){
+            _threads.Remove(data.Ticker);
+            var e = new DataControllerEventArgs()
+            {
+                Success = success,
+                Data = data
+            };
+            OnDataFetched(e);
+            return true;
         }
-        #endregion Alarm
+        #endregion PullData
 
         #region Tickers
         public void AddTickers(string ticker)
@@ -58,6 +75,14 @@ namespace ExchangeMonitor.Engine.Controller
             _tickers.Remove(ticker);
         }
         #endregion Tickers
+
+        #region Retriever Class
+        private class ThreadToRetriever
+        {
+            public DataRetriever DataRetriever { get; set; }
+            public Thread Thread { get; set; }
+        }
+        #endregion Retriever Class
     }
 
     public class DataControllerEventArgs : EventArgs

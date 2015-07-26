@@ -38,6 +38,12 @@ namespace ExchangeMonitor
         }
 
         private void AddDataToGrid(ExchangeMonitor.Engine.ViewModel.Data data) {
+            if (InvokeRequired)
+            {
+                this.Invoke(new Action<ExchangeMonitor.Engine.ViewModel.Data>(AddDataToGrid), new object[] { data });
+                return;
+            }
+
              int rowIndex = -1;
             foreach (DataGridViewRow row in DataGrid.Rows) {
               if (row.Cells[1].Value.ToString().Equals(data.Ticker)) {
@@ -47,12 +53,9 @@ namespace ExchangeMonitor
 
             string[] rowToAdd = new string[] { "Dude", "wheres", "my", "car" };
             try {
-              
-            DataGrid.Rows.Add(rowToAdd);
+             DataGrid.Rows.Add(rowToAdd);
             }
-            catch (Exception ex) {
-              
-              throw;
+            catch (Exception) {
             }
             DataGrid.Refresh();
         }

@@ -1,4 +1,5 @@
-﻿using ExchangeMonitor.Engine.Web;
+﻿using ExchangeMonitor.Engine.Controller;
+using ExchangeMonitor.Engine.Web;
 using ExchangeMonitor.Engine.Web.Yql;
 using System;
 using System.Collections.Generic;
@@ -12,33 +13,21 @@ namespace ExchangeMonitorConsole
     {
         static void Main(string[] args)
         {
-            var input = "EURUSD=X";
-            while (input != "EXIT" && input != "")
-            {
-                Console.Clear();
 
-                CatchData(input);
-                Console.WriteLine("");
-                Console.WriteLine("Give ticker or nothing to leave:");
-                input = Console.ReadLine().ToUpper();
-            }
+            var controller = new DataController();
+            controller.AddTickers("EURUSD=X");
+            controller.AddTickers("GOOG");
+
+            controller.DataFetched += controller_DataFetched;
+
+            Console.ReadKey();
         }
 
-        static void CatchData(string ticker)
-        {
-            var infoResponse = InfoCatcher.Catch(ticker);
+        static void controller_DataFetched(object sender, EventArgs e) {
+          var eventArgs = (DataControllerEventArgs)e;
 
-            Console.WriteLine("Info:");
-
-            Console.WriteLine(infoResponse.ToString());
-
-            if (infoResponse.Success)
-            {
-                Console.WriteLine("\nData");
-                var result = DataCatcher.Catch(ticker);
-                Console.WriteLine(result.ToString());
-
-            }
-        } 
+          Console.WriteLine("\nEvent");
+          Console.WriteLine(eventArgs.Data.ToString());
+        }
     }
 }

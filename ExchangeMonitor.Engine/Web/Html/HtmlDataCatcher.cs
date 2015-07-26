@@ -5,75 +5,68 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net;
 using HtmlAgilityPack;
+using System.Globalization;
 
 namespace ExchangeMonitor.Engine.Web.Html
 {
-    internal class HtmlDataCatcher
-    {
-        private const string _uri = "http://finance.yahoo.com/q?s={0}";
+  internal class HtmlDataCatcher {
+    private const string _uri = "http://finance.yahoo.com/q?s={0}";
 
-        internal static HtmlDataResponse Catch(string ticker)
-        {
-            if (string.IsNullOrEmpty(ticker))
-                return new HtmlDataResponse(); 
+    internal static HtmlDataResponse Catch(string ticker) {
 
-            try
-            {
-                string url = string.Format(_uri, ticker);
-                var client = new WebClient();
+      NumberFormatInfo provider = new NumberFormatInfo();
+      provider.NumberDecimalSeparator = ".";
+      provider.NumberGroupSeparator = ",";
+      provider.NumberGroupSizes = new int[] { 3 };
 
-                string reply = client.DownloadString(url);
-                var doc = new HtmlDocument();
-                doc.LoadHtml(reply);
-                HtmlNode specificNode = doc.GetElementbyId("yfi_rt_quote_summary");
+      if (string.IsNullOrEmpty(ticker))
+        return new HtmlDataResponse();
 
-                var response = new HtmlDataResponse() { Name = string.Empty, Rate=0 };
+      try {
+        string url = string.Format(_uri, ticker);
+        var client = new WebClient();
 
-                // Loop trough de divs
-                foreach (var divLvl1 in specificNode.ChildNodes)
-                {
-                    if (divLvl1.GetAttributeValue("class",string.Empty) == "hd")
-                    {
-                        foreach (var divLvl2 in divLvl1.ChildNodes)
-                        {
-                            if (divLvl2.GetAttributeValue("class",string.Empty) == "title")
-                            {
-                                foreach (var divLvl3 in divLvl2.ChildNodes)
-                                {
-                                    if (divLvl3.Name.ToUpper() == "H2") response.Name = divLvl3.InnerText;
-                                }
-                            }
-                        }
-                    }
-                    else if (divLvl1.GetAttributeValue("class",string.Empty).Contains("summary"))
-                    {
-                        foreach (var divLvl2 in divLvl1.ChildNodes)
-                        {
-                            foreach (var divLvl3 in divLvl2.ChildNodes)
-                            {
-                                if (divLvl3.Name.ToUpper() == "SPAN")
-                                {
-                                    if (divLvl3.GetAttributeValue("class", string.Empty).Contains("time_rtq_ticker"))
-                                    {
-                                        foreach (var divLvl4 in divLvl3.ChildNodes)
-                                        {
-                                            if (divLvl4.GetAttributeValue("id", string.Empty).ToUpper().Contains(ticker)) response.Rate = Convert.ToDouble(divLvl4.InnerHtml); ;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
+        string reply = client.DownloadString(url);
+        var doc = new HtmlDocument();
+        doc.LoadHtml(reply);
+        HtmlNode specificNode = doc.GetElementbyId("yfi_rt_quote_summary");
+
+        var response = new HtmlDataResponse() { Name = string.Empty, Rate = 0 };
+
+        // Loop trough de divs
+        foreach (var divLvl1 in specificNode.ChildNodes) {
+          if (divLvl1.GetAttributeValue("class", string.Empty) == "hd") {
+            foreach (var divLvl2 in divLvl1.ChildNodes) {
+              if (divLvl2.GetAttributeValue("class", string.Empty) == "title") {
+                foreach (var divLvl3 in divLvl2.ChildNodes) {
+                  if (divLvl3.Name.ToUpper() == "H2") response.Name = divLvl3.InnerText;
                 }
-                
-                return response;
+              }
             }
-            catch
-            {
-                return new HtmlDataResponse();
+          }
+          else if (divLvl1.GetAttributeValue("class", string.Empty).Contains("summary")) {
+            foreach (var divLvl2 in divLvl1.ChildNodes) {
+              foreach (var divLvl3 in divLvl2.ChildNodes) {
+                if (divLvl3.Name.ToUpper() == "SPAN") {
+                  if (divLvl3.GetAttributeValue("class", string.Empty).Contains("time_rtq_ticker")) {
+                    foreach (var divLvl4 in divLvl3.ChildNodes) {
+                      if (divLvl4.GetAttributeValue("id", string.Empty).ToUpper().Contains(ticker)) 
+                        response.Rate = Convert.ToDouble(divLvl4.InnerHtml, provider); ;
+                    }
+                  }
+                }
+              }
             }
+          }
         }
+
+        return response;
+      }
+      catch {
+        return new HtmlDataResponse();
+      }
     }
+  }
 
     internal class HtmlDataResponse
     {

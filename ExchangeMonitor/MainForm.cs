@@ -65,5 +65,10 @@ namespace ExchangeMonitor
           DataGrid.Rows[index].Cells[4].Value = data.BollingerUpper.ToString();
           DataGrid.Rows[index].Cells[5].Value = data.BollingerLower.ToString();
         }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            _dataController.Pull();
+        }
     }
 }

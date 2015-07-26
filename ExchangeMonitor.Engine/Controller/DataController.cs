@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
 
@@ -11,7 +12,6 @@ namespace ExchangeMonitor.Engine.Controller
     {
         #region private members
         private Dictionary<string, DataControllerEventArgs> _tickers = new Dictionary<string, DataControllerEventArgs>();
-        private Timer _timer;
         #endregion private members
 
         #region events
@@ -19,22 +19,11 @@ namespace ExchangeMonitor.Engine.Controller
         protected virtual void OnDataFetched(EventArgs e)
         {
             if (DataFetched != null) DataFetched(this, e);
-            DataFetched += DataControllerDataFetched;
         }
         #endregion events
 
-        #region constructors
-        public DataController(): this(5000) { }
-        public DataController(double interval)
-        {
-            _timer = new Timer(interval);
-            _timer.Elapsed += _onTimerElapsed;
-            _timer.Enabled = true;
-        }
-        #endregion constructors
-
-        #region Timer
-        private void _onTimerElapsed(object sender, ElapsedEventArgs e)
+        #region Pull
+        public void Pull()
         {
             foreach (var item in _tickers)
             {
@@ -64,7 +53,6 @@ namespace ExchangeMonitor.Engine.Controller
         {
             _tickers.Add(ticker, new DataControllerEventArgs());
         }
-
         public void RemoveTicker(string ticker)
         {
             _tickers.Remove(ticker);

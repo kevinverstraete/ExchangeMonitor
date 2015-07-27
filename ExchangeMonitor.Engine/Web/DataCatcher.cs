@@ -7,11 +7,11 @@ using ExchangeMonitor.Engine.Helper;
 
 namespace ExchangeMonitor.Engine.Web
 {
-    public static class DataCatcher
+    internal static class DataCatcher
     {
         private static Dictionary<string, TickerProperties> _tickerProperties = new Dictionary<string, TickerProperties>();
 
-        public static DataCatcherResponse Catch(string ticker)
+        internal static DataCatcherResponse Catch(string ticker)
         {
             var tickerProperties = new TickerProperties();
             if (!_tickerProperties.TryGetValue(ticker, out tickerProperties)) tickerProperties = PrepareTicker(ticker);
@@ -20,7 +20,6 @@ namespace ExchangeMonitor.Engine.Web
 
         private static DataCatcherResponse Catch(TickerProperties tickerProperties)
         {
-            var startTime = DateTime.Now;
             if (tickerProperties.HasYqlData)
             {
                 var response = Yql.YqlDataCatcher.Catch(tickerProperties.KeyToUse);
@@ -28,8 +27,7 @@ namespace ExchangeMonitor.Engine.Web
                 {
                     Name = response.Name,
                     Rate = response.Rate,
-                    Success = response.Success, 
-                    Call = new Period(startTime, DateTime.Now)
+                    Success = response.Success
                 };
             }
             else
@@ -39,8 +37,7 @@ namespace ExchangeMonitor.Engine.Web
                 {
                     Name = response.Name,
                     Rate = response.Rate,
-                    Success = response.Success,
-                    Call = new Period(startTime, DateTime.Now)
+                    Success = response.Success
                 };
             }
         }
@@ -70,12 +67,11 @@ namespace ExchangeMonitor.Engine.Web
         }
     }
 
-    public class DataCatcherResponse
+    internal class DataCatcherResponse
     {
         public bool Success { get; set; }
         public string Name { get; set; }
         public Double Rate { get; set; }
-        public Period Call { get; set; }
 
         public override string ToString()
         {

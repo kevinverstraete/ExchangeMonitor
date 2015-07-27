@@ -66,7 +66,7 @@ namespace ExchangeMonitor
         }
         private void SetRowValues(int index, ExchangeMonitor.Engine.ViewModel.Data data)
         {
-            DataGrid.Rows[index].Cells[0].Value = data.Call.Stop.ToString();
+            DataGrid.Rows[index].Cells[0].Value = data.RequestProcessingTime.Stop.ToString();
             DataGrid.Rows[index].Cells[1].Value = data.Ticker;
             DataGrid.Rows[index].Cells[2].Value = data.Name;
             DataGrid.Rows[index].Cells[3].Value = data.Rate.ToString();

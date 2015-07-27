@@ -21,13 +21,16 @@ namespace ExchangeMonitor.Engine.Controller
             var startTime = DateTime.Now;
             var webData = Web.DataCatcher.Catch(_ticker);
             var webInfo = Web.InfoCatcher.Catch(_ticker);
+            var bollingerInfo = Web. ChartCatcher.Catch(_ticker);
             var data = new ViewModel.Data()
             {
                 Ticker = _ticker,
                 StockExchange = webInfo.StockExchange,
                 Name = webData.Name,
                 Rate = webData.Rate,
-                Call = new Period(startTime, DateTime.Now)
+                BollingerLower = bollingerInfo.BollingerLower,
+                BollingerUpper= bollingerInfo.BollingerUpper,
+                RequestProcessingTime = new Period(startTime, DateTime.Now)
             };
             _func(webData.Success, data);
         }

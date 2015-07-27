@@ -7,11 +7,11 @@ using System.Xml.Linq;
 
 namespace ExchangeMonitor.Engine.Web.Yql
 {
-    internal class YqlInfoCatcher
+    internal static class YqlInfoCatcher
     {
         private const string _uri = "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.quotes%20where%20symbol%20in%20%28%22{0}%22%29%0A%09%09&env=http%3A%2F%2Fdatatables.org%2Falltables.env";
 
-        internal YqlInfoResponse Catch(string ticker)
+        internal static YqlInfoResponse Catch(string ticker)
         {
             if (string.IsNullOrEmpty(ticker))
                 return new YqlInfoResponse();
@@ -24,21 +24,19 @@ namespace ExchangeMonitor.Engine.Web.Yql
                 var resultsElement = rootElement.Element("results");
                 var quoteElement = resultsElement.Element("quote");
 
+
                 var bidItem = quoteElement.Element("Bid");
                 if (string.IsNullOrEmpty(bidItem.Value))
                     return new YqlInfoResponse();
 
-                var nameItem = quoteElement.Element("Name");
-                var symbolItem = quoteElement.Element("Symbol");
-                var stockExchangeItem = quoteElement.Element("StockExchange");
 
-                var result = new YqlInfoResponse();
-                result.Name = nameItem.Value;
-                result.Symbol = symbolItem.Value;
-                result.StockExchange = stockExchangeItem.Value;
-
-                result.Success = true;
-                return result;
+                return new YqlInfoResponse()
+                {
+                    Name = quoteElement.Element("Name").Value,
+                    Symbol = quoteElement.Element("Symbol").Value,
+                    StockExchange = quoteElement.Element("StockExchange").Value,
+                    Success = true
+                };
             }
             catch
             {

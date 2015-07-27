@@ -15,7 +15,7 @@ namespace ExchangeMonitor.Engine.ViewModel
         public double Rate { get; set; }
         public double BollingerUpper { get; set; }
         public double BollingerLower { get; set; }
-        public Period Call { get; set; }
+        public Period RequestProcessingTime { get; set; }
 
         public override string ToString()
         {

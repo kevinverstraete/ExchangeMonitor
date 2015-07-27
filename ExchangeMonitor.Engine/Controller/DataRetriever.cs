@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ExchangeMonitor.Engine.Helper;
 
 namespace ExchangeMonitor.Engine.Controller
 {
@@ -17,6 +18,7 @@ namespace ExchangeMonitor.Engine.Controller
         }
         public void Run()
         {
+            var startTime = DateTime.Now;
             var webData = Web.DataCatcher.Catch(_ticker);
             var webInfo = Web.InfoCatcher.Catch(_ticker);
             var data = new ViewModel.Data()
@@ -25,6 +27,7 @@ namespace ExchangeMonitor.Engine.Controller
                 StockExchange = webInfo.StockExchange,
                 Name = webData.Name,
                 Rate = webData.Rate,
+                Call = new Period(startTime, DateTime.Now)
             };
             _func(webData.Success, data);
         }

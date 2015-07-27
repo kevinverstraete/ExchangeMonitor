@@ -16,6 +16,10 @@ http://www.jarloo.com/yahoo_finance/
 
 https://finance-yql.media.yahoo.com/v7/finance/chart/GOOG
 
+Task Parallelism ???
+
+
+
 
 install html agilitypack
 

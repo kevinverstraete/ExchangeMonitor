@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ExchangeMonitor.Engine.Helper;
 
 namespace ExchangeMonitor.Engine.Web
 {
@@ -19,6 +20,7 @@ namespace ExchangeMonitor.Engine.Web
 
         private static DataCatcherResponse Catch(TickerProperties tickerProperties)
         {
+            var startTime = DateTime.Now;
             if (tickerProperties.HasYqlData)
             {
                 var response = Yql.YqlDataCatcher.Catch(tickerProperties.KeyToUse);
@@ -26,7 +28,8 @@ namespace ExchangeMonitor.Engine.Web
                 {
                     Name = response.Name,
                     Rate = response.Rate,
-                    Success = response.Success
+                    Success = response.Success, 
+                    Call = new Period(startTime, DateTime.Now)
                 };
             }
             else
@@ -36,7 +39,8 @@ namespace ExchangeMonitor.Engine.Web
                 {
                     Name = response.Name,
                     Rate = response.Rate,
-                    Success = response.Success
+                    Success = response.Success,
+                    Call = new Period(startTime, DateTime.Now)
                 };
             }
         }
@@ -71,6 +75,7 @@ namespace ExchangeMonitor.Engine.Web
         public bool Success { get; set; }
         public string Name { get; set; }
         public Double Rate { get; set; }
+        public Period Call { get; set; }
 
         public override string ToString()
         {

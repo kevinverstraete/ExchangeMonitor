@@ -27,9 +27,6 @@ namespace ExchangeMonitor
             materialSkinManager.ColorScheme =
               new ColorScheme(Primary.Grey800, Primary.Grey900, Primary.Grey500, Accent.LightBlue200, TextShade.WHITE);
 
-
-            //_dataController.AddTickers("GOOG");
-            //_dataController.AddTickers("EURUSD=X");
             _dataController.DataFetched += _dataControllerDataFetched;
         }
 
@@ -69,7 +66,7 @@ namespace ExchangeMonitor
         }
         private void SetRowValues(int index, ExchangeMonitor.Engine.ViewModel.Data data)
         {
-            DataGrid.Rows[index].Cells[0].Value = DateTime.Now.ToString();
+            DataGrid.Rows[index].Cells[0].Value = data.Call.Stop.ToString();
             DataGrid.Rows[index].Cells[1].Value = data.Ticker;
             DataGrid.Rows[index].Cells[2].Value = data.Name;
             DataGrid.Rows[index].Cells[3].Value = data.Rate.ToString();

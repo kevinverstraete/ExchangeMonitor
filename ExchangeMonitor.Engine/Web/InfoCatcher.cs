@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ExchangeMonitor.Engine.Helper;
 
 namespace ExchangeMonitor.Engine.Web
 {
@@ -14,6 +15,7 @@ namespace ExchangeMonitor.Engine.Web
         public static InfoCactherResponse Catch(string ticker)
         {
             // via cache
+            var startTime = DateTime.Now;
             var infoResponse = new InfoCactherResponse();
             if (_cachedData.TryGetValue(ticker, out infoResponse)) return infoResponse;
 
@@ -24,7 +26,8 @@ namespace ExchangeMonitor.Engine.Web
                 Success = yqlInfoResponse.Success,
                 Name = yqlInfoResponse.Name,
                 Symbol = yqlInfoResponse.Symbol,
-                StockExchange = yqlInfoResponse.StockExchange
+                StockExchange = yqlInfoResponse.StockExchange,
+                Call = new Period(startTime, DateTime.Now)
             };
 
             _cachedData.Add(ticker, infoResponse);
@@ -38,6 +41,7 @@ namespace ExchangeMonitor.Engine.Web
         public string Name { get; set; }
         public string Symbol { get; set; }
         public string StockExchange { get; set; }
+        public Period Call { get; set; }
 
         public override string ToString()
         {

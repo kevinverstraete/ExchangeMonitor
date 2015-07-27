@@ -34,12 +34,14 @@ namespace ExchangeMonitor.Engine.Controller
         public event EventHandler DataFetched;
         protected virtual void OnDataFetched(EventArgs e)
         {
-            if (DataFetched != null) DataFetched(this, e);
+            if (DataFetched == null) return;
+            DataFetched(this, e);
         }
         public event EventHandler BollingerAlarm;
         protected virtual void OnBollingerAlarm(EventArgs e)
         {
-            if (BollingerAlarm != null) BollingerAlarm(this, e);
+            if (BollingerAlarm == null) return;
+            BollingerAlarm(this, e);
         }
         #endregion events
 

@@ -47,19 +47,25 @@ namespace ExchangeMonitor
                 return;
             }
 
-            int rowIndex = -1;
-            foreach (DataGridViewRow row in DataGrid.Rows)
+            try
             {
-                if (row.Cells[1].Value.ToString().Equals(data.Ticker))
+
+                int rowIndex = -1;
+                foreach (DataGridViewRow row in DataGrid.Rows)
                 {
-                    rowIndex = row.Index;
+                    if (row.Cells[1].Value.ToString().Equals(data.Ticker))
+                    {
+                        rowIndex = row.Index;
+                    }
                 }
+
+                SetRowValues(rowIndex != -1 ? rowIndex : DataGrid.Rows.Add(), data);
+                DataGrid.Refresh();
             }
-
-            if (rowIndex != -1) SetRowValues(rowIndex, data);
-            else SetRowValues(DataGrid.Rows.Add(), data);
-
-            DataGrid.Refresh();
+            catch
+            {
+                return;
+            }
         }
         private void SetRowValues(int index, ExchangeMonitor.Engine.ViewModel.Data data)
         {

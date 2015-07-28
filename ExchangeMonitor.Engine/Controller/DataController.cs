@@ -115,6 +115,9 @@ namespace ExchangeMonitor.Engine.Controller
         #region BollingerAlarm
         private bool DataNeedsAlarm(ViewModel.Data data)
         {
+            if (data.BollingerUpper == 0.0) return false;
+            if (data.BollingerLower == 0.0) return false;
+
             // standard checks, alarm needed if yu cross the line
             if (data.BollingerUpper < data.Rate) return true;
             if (data.BollingerLower > data.Rate) return true;

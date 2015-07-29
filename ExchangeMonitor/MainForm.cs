@@ -27,7 +27,6 @@ namespace ExchangeMonitor
             materialSkinManager.ColorScheme =
               new ColorScheme(Primary.Grey800, Primary.Grey900, Primary.Grey500, Accent.LightBlue200, TextShade.WHITE);
 
-
             //_dataController.AddTickers("GOOG");
             //_dataController.AddTickers("EURUSD=X");
             _dataController.DataFetched += _dataControllerDataFetched;
@@ -77,30 +76,36 @@ namespace ExchangeMonitor
             _dataController.Pull();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnAddTicker_Click(object sender, EventArgs e)
         {
-            panel1.Show();
+            pnlAdd.Show();
+            tbAdd.Focus();
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void btnAddCancel_Click(object sender, EventArgs e)
         {
-            panel1.Hide();
+            pnlAdd.Hide();
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void btnAddOk_Click(object sender, EventArgs e)
         {
-            _dataController.AddTickers(textBox1.Text);
-            panel1.Hide();
+            _dataController.AddTickers(tbAdd.Text);
+            pnlAdd.Hide();
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void btnRemoveTicker_Click(object sender, EventArgs e)
         {
-            panel2.Show();
+            pnlRemove.Show();
+            tbRemoveTicker.Focus();
         }
 
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
+        
 
+        private void btnRemoveCancel_Click(object sender, EventArgs e)
+        {
+            pnlRemove.Hide();
         }
+
+        
     }
 }

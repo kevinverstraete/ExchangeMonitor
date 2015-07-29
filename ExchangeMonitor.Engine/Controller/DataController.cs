@@ -14,6 +14,7 @@ namespace ExchangeMonitor.Engine.Controller
         private int _interval;
         private Dictionary<string, DataControllerEventArgs> _tickers = new Dictionary<string, DataControllerEventArgs>();
         private Dictionary<string, ThreadToRetriever> _threads = new Dictionary<string, ThreadToRetriever>();
+        private System.Timers.Timer _timer = new System.Timers.Timer();
         #endregion private members
 
         #region Public Properties
@@ -48,10 +49,15 @@ namespace ExchangeMonitor.Engine.Controller
         #region ctor
         public DataController()
         {
+
             BollingerMargin = 0;
-            _interval = 5000;
+            _interval = 2000;
             DataFetched += DataControllerDataFetched;
+            _timer = new System.Timers.Timer(_interval);
+            _timer.Elapsed += _timerElapsed;
+            _timer.Enabled = true;
         }
+
 
         public DataController(int interval) : this()
         {
@@ -60,6 +66,10 @@ namespace ExchangeMonitor.Engine.Controller
         #endregion ctor
 
         #region PullData
+        private void _timerElapsed(object sender, ElapsedEventArgs e)
+        {
+            Pull();
+        }
         public void Pull()
         {
             foreach (var item in _tickers)

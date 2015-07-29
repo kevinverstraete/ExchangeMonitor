@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.DataGrid = new System.Windows.Forms.DataGridView();
             this.LastUpdate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Ticker = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -36,7 +35,6 @@
             this.Rate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.BollingerUpper = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.BollingerLower = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.PullTimer = new System.Windows.Forms.Timer(this.components);
             this.btnAddTicker = new System.Windows.Forms.Button();
             this.pnlAdd = new System.Windows.Forms.Panel();
             this.btnAddCancel = new System.Windows.Forms.Button();
@@ -70,7 +68,7 @@
             this.BollingerUpper,
             this.BollingerLower});
             this.DataGrid.Location = new System.Drawing.Point(2, 63);
-            this.DataGrid.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.DataGrid.Margin = new System.Windows.Forms.Padding(2);
             this.DataGrid.Name = "DataGrid";
             this.DataGrid.ReadOnly = true;
             this.DataGrid.RowHeadersVisible = false;
@@ -114,16 +112,10 @@
             this.BollingerLower.Name = "BollingerLower";
             this.BollingerLower.ReadOnly = true;
             // 
-            // PullTimer
-            // 
-            this.PullTimer.Enabled = true;
-            this.PullTimer.Interval = 2000;
-            this.PullTimer.Tick += new System.EventHandler(this.TimerPull_Tick);
-            // 
             // btnAddTicker
             // 
             this.btnAddTicker.Location = new System.Drawing.Point(10, 464);
-            this.btnAddTicker.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnAddTicker.Margin = new System.Windows.Forms.Padding(2);
             this.btnAddTicker.Name = "btnAddTicker";
             this.btnAddTicker.Size = new System.Drawing.Size(106, 19);
             this.btnAddTicker.TabIndex = 1;
@@ -139,7 +131,7 @@
             this.pnlAdd.Controls.Add(this.tbAdd);
             this.pnlAdd.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.pnlAdd.Location = new System.Drawing.Point(215, 217);
-            this.pnlAdd.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pnlAdd.Margin = new System.Windows.Forms.Padding(2);
             this.pnlAdd.Name = "pnlAdd";
             this.pnlAdd.Size = new System.Drawing.Size(201, 123);
             this.pnlAdd.TabIndex = 2;
@@ -148,7 +140,7 @@
             // btnAddCancel
             // 
             this.btnAddCancel.Location = new System.Drawing.Point(117, 54);
-            this.btnAddCancel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnAddCancel.Margin = new System.Windows.Forms.Padding(2);
             this.btnAddCancel.Name = "btnAddCancel";
             this.btnAddCancel.Size = new System.Drawing.Size(56, 19);
             this.btnAddCancel.TabIndex = 2;
@@ -159,7 +151,7 @@
             // btnAddOk
             // 
             this.btnAddOk.Location = new System.Drawing.Point(24, 54);
-            this.btnAddOk.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnAddOk.Margin = new System.Windows.Forms.Padding(2);
             this.btnAddOk.Name = "btnAddOk";
             this.btnAddOk.Size = new System.Drawing.Size(56, 19);
             this.btnAddOk.TabIndex = 1;
@@ -170,7 +162,7 @@
             // tbAdd
             // 
             this.tbAdd.Location = new System.Drawing.Point(24, 20);
-            this.tbAdd.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tbAdd.Margin = new System.Windows.Forms.Padding(2);
             this.tbAdd.Name = "tbAdd";
             this.tbAdd.Size = new System.Drawing.Size(150, 20);
             this.tbAdd.TabIndex = 0;
@@ -178,7 +170,7 @@
             // btnRemoveTicker
             // 
             this.btnRemoveTicker.Location = new System.Drawing.Point(137, 464);
-            this.btnRemoveTicker.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnRemoveTicker.Margin = new System.Windows.Forms.Padding(2);
             this.btnRemoveTicker.Name = "btnRemoveTicker";
             this.btnRemoveTicker.Size = new System.Drawing.Size(107, 19);
             this.btnRemoveTicker.TabIndex = 3;
@@ -193,7 +185,7 @@
             this.pnlRemove.Controls.Add(this.btnRemoveCancel);
             this.pnlRemove.Controls.Add(this.btnRemoveOk);
             this.pnlRemove.Location = new System.Drawing.Point(215, 131);
-            this.pnlRemove.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pnlRemove.Margin = new System.Windows.Forms.Padding(2);
             this.pnlRemove.Name = "pnlRemove";
             this.pnlRemove.Size = new System.Drawing.Size(200, 81);
             this.pnlRemove.TabIndex = 4;
@@ -202,7 +194,7 @@
             // tbRemoveTicker
             // 
             this.tbRemoveTicker.Location = new System.Drawing.Point(70, 15);
-            this.tbRemoveTicker.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tbRemoveTicker.Margin = new System.Windows.Forms.Padding(2);
             this.tbRemoveTicker.Name = "tbRemoveTicker";
             this.tbRemoveTicker.Size = new System.Drawing.Size(76, 20);
             this.tbRemoveTicker.TabIndex = 3;
@@ -220,7 +212,7 @@
             // btnRemoveCancel
             // 
             this.btnRemoveCancel.Location = new System.Drawing.Point(130, 52);
-            this.btnRemoveCancel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnRemoveCancel.Margin = new System.Windows.Forms.Padding(2);
             this.btnRemoveCancel.Name = "btnRemoveCancel";
             this.btnRemoveCancel.Size = new System.Drawing.Size(56, 19);
             this.btnRemoveCancel.TabIndex = 1;
@@ -231,7 +223,7 @@
             // btnRemoveOk
             // 
             this.btnRemoveOk.Location = new System.Drawing.Point(13, 52);
-            this.btnRemoveOk.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnRemoveOk.Margin = new System.Windows.Forms.Padding(2);
             this.btnRemoveOk.Name = "btnRemoveOk";
             this.btnRemoveOk.Size = new System.Drawing.Size(56, 19);
             this.btnRemoveOk.TabIndex = 0;
@@ -264,7 +256,6 @@
         #endregion
 
         private System.Windows.Forms.DataGridView DataGrid;
-        private System.Windows.Forms.Timer PullTimer;
         private System.Windows.Forms.Button btnAddTicker;
         private System.Windows.Forms.Panel pnlAdd;
         private System.Windows.Forms.Button btnAddCancel;

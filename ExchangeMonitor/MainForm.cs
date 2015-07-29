@@ -82,11 +82,6 @@ namespace ExchangeMonitor
         }
         #endregion AddDataToGrid
 
-        private void TimerPull_Tick(object sender, EventArgs e)
-        {
-            _dataController.Pull();
-        }
-
         #region AddPanel
         private void btnAddTicker_Click(object sender, EventArgs e)
         {

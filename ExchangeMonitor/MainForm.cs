@@ -46,15 +46,7 @@ namespace ExchangeMonitor
                     return;
                 }
 
-                int rowIndex = -1;
-                foreach (DataGridViewRow row in DataGrid.Rows)
-                {
-                    if (row.Cells[1].Value.ToString().Equals(data.Ticker))
-                    {
-                        rowIndex = row.Index;
-                    }
-                }
-
+                int rowIndex = GetIndexForTicker(data.Ticker);
                 if (rowIndex != -1) SetRowValues(rowIndex, data);
                 else SetRowValues(DataGrid.Rows.Add(), data);
 
@@ -66,6 +58,19 @@ namespace ExchangeMonitor
                 return;
             }
         }
+
+        private int GetIndexForTicker(string ticker)
+        {
+            foreach (DataGridViewRow row in DataGrid.Rows)
+            {
+                if (row.Cells[1].Value.ToString().Equals(ticker))
+                {
+                    return row.Index;
+                }
+            }
+            return -1;
+        }
+
         private void SetRowValues(int index, ExchangeMonitor.Engine.ViewModel.Data data)
         {
             DataGrid.Rows[index].Cells[0].Value = DateTime.Now.ToString();
@@ -82,6 +87,7 @@ namespace ExchangeMonitor
             _dataController.Pull();
         }
 
+        #region AddPanel
         private void btnAddTicker_Click(object sender, EventArgs e)
         {
             pnlAdd.Show();
@@ -98,36 +104,30 @@ namespace ExchangeMonitor
             _dataController.AddTickers(tbAdd.Text);
             pnlAdd.Hide();
         }
+        #endregion AddPanel
 
+        #region RemovePanel
         private void btnRemoveTicker_Click(object sender, EventArgs e)
         {
             pnlRemove.Show();
             tbRemoveTicker.Focus();
         }
 
-        
-
         private void btnRemoveCancel_Click(object sender, EventArgs e)
         {
             pnlRemove.Hide();
         }
 
-        private void tbRemoveTicker_TextChanged(object sender, EventArgs e)
-        {
-            
-        }
-
         private void btnRemoveOk_Click(object sender, EventArgs e)
         {
-            int selectedIndex = DataGrid.CurrentCell.RowIndex;
-            if (selectedIndex != null)
+            _dataController.RemoveTicker(tbRemoveTicker.Text);
+            int selectedIndex = GetIndexForTicker(tbRemoveTicker.Text);
+            if (selectedIndex != -1)
             {
                 DataGrid.Rows.RemoveAt(selectedIndex);
-                //DataGrid.Refresh();
-                _dataController.RemoveTicker(tbRemoveTicker.Text);
             }
+            pnlRemove.Hide();
         }
-
-        
+        #endregion RemovePanel      
     }
 }

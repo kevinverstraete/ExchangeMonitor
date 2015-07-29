@@ -69,13 +69,13 @@
             this.Rate,
             this.BollingerUpper,
             this.BollingerLower});
-            this.DataGrid.Location = new System.Drawing.Point(3, 64);
-            this.DataGrid.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.DataGrid.Location = new System.Drawing.Point(2, 63);
+            this.DataGrid.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.DataGrid.Name = "DataGrid";
             this.DataGrid.ReadOnly = true;
             this.DataGrid.RowHeadersVisible = false;
             this.DataGrid.RowTemplate.Height = 24;
-            this.DataGrid.Size = new System.Drawing.Size(1047, 478);
+            this.DataGrid.Size = new System.Drawing.Size(785, 377);
             this.DataGrid.TabIndex = 0;
             // 
             // LastUpdate
@@ -122,10 +122,10 @@
             // 
             // btnAddTicker
             // 
-            this.btnAddTicker.Location = new System.Drawing.Point(13, 571);
-            this.btnAddTicker.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnAddTicker.Location = new System.Drawing.Point(10, 464);
+            this.btnAddTicker.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnAddTicker.Name = "btnAddTicker";
-            this.btnAddTicker.Size = new System.Drawing.Size(141, 23);
+            this.btnAddTicker.Size = new System.Drawing.Size(106, 19);
             this.btnAddTicker.TabIndex = 1;
             this.btnAddTicker.Text = "Add Ticker";
             this.btnAddTicker.UseVisualStyleBackColor = true;
@@ -138,19 +138,19 @@
             this.pnlAdd.Controls.Add(this.btnAddOk);
             this.pnlAdd.Controls.Add(this.tbAdd);
             this.pnlAdd.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.pnlAdd.Location = new System.Drawing.Point(287, 267);
-            this.pnlAdd.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.pnlAdd.Location = new System.Drawing.Point(215, 217);
+            this.pnlAdd.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.pnlAdd.Name = "pnlAdd";
-            this.pnlAdd.Size = new System.Drawing.Size(267, 151);
+            this.pnlAdd.Size = new System.Drawing.Size(201, 123);
             this.pnlAdd.TabIndex = 2;
             this.pnlAdd.Visible = false;
             // 
             // btnAddCancel
             // 
-            this.btnAddCancel.Location = new System.Drawing.Point(156, 66);
-            this.btnAddCancel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnAddCancel.Location = new System.Drawing.Point(117, 54);
+            this.btnAddCancel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnAddCancel.Name = "btnAddCancel";
-            this.btnAddCancel.Size = new System.Drawing.Size(75, 23);
+            this.btnAddCancel.Size = new System.Drawing.Size(56, 19);
             this.btnAddCancel.TabIndex = 2;
             this.btnAddCancel.Text = "Cancel";
             this.btnAddCancel.UseVisualStyleBackColor = true;
@@ -158,10 +158,10 @@
             // 
             // btnAddOk
             // 
-            this.btnAddOk.Location = new System.Drawing.Point(32, 66);
-            this.btnAddOk.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnAddOk.Location = new System.Drawing.Point(24, 54);
+            this.btnAddOk.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnAddOk.Name = "btnAddOk";
-            this.btnAddOk.Size = new System.Drawing.Size(75, 23);
+            this.btnAddOk.Size = new System.Drawing.Size(56, 19);
             this.btnAddOk.TabIndex = 1;
             this.btnAddOk.Text = "OK";
             this.btnAddOk.UseVisualStyleBackColor = true;
@@ -169,18 +169,18 @@
             // 
             // tbAdd
             // 
-            this.tbAdd.Location = new System.Drawing.Point(32, 25);
-            this.tbAdd.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.tbAdd.Location = new System.Drawing.Point(24, 20);
+            this.tbAdd.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tbAdd.Name = "tbAdd";
-            this.tbAdd.Size = new System.Drawing.Size(199, 22);
+            this.tbAdd.Size = new System.Drawing.Size(150, 20);
             this.tbAdd.TabIndex = 0;
             // 
             // btnRemoveTicker
             // 
-            this.btnRemoveTicker.Location = new System.Drawing.Point(183, 571);
-            this.btnRemoveTicker.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnRemoveTicker.Location = new System.Drawing.Point(137, 464);
+            this.btnRemoveTicker.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnRemoveTicker.Name = "btnRemoveTicker";
-            this.btnRemoveTicker.Size = new System.Drawing.Size(143, 23);
+            this.btnRemoveTicker.Size = new System.Drawing.Size(107, 19);
             this.btnRemoveTicker.TabIndex = 3;
             this.btnRemoveTicker.Text = "Remove Ticker";
             this.btnRemoveTicker.UseVisualStyleBackColor = true;
@@ -192,36 +192,37 @@
             this.pnlRemove.Controls.Add(this.lblRemove);
             this.pnlRemove.Controls.Add(this.btnRemoveCancel);
             this.pnlRemove.Controls.Add(this.btnRemoveOk);
-            this.pnlRemove.Location = new System.Drawing.Point(287, 161);
-            this.pnlRemove.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.pnlRemove.Location = new System.Drawing.Point(215, 131);
+            this.pnlRemove.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.pnlRemove.Name = "pnlRemove";
-            this.pnlRemove.Size = new System.Drawing.Size(267, 100);
+            this.pnlRemove.Size = new System.Drawing.Size(200, 81);
             this.pnlRemove.TabIndex = 4;
             this.pnlRemove.Visible = false;
             // 
             // tbRemoveTicker
             // 
-            this.tbRemoveTicker.Location = new System.Drawing.Point(93, 18);
-            this.tbRemoveTicker.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.tbRemoveTicker.Location = new System.Drawing.Point(70, 15);
+            this.tbRemoveTicker.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tbRemoveTicker.Name = "tbRemoveTicker";
-            this.tbRemoveTicker.Size = new System.Drawing.Size(100, 22);
+            this.tbRemoveTicker.Size = new System.Drawing.Size(76, 20);
             this.tbRemoveTicker.TabIndex = 3;
             // 
             // lblRemove
             // 
             this.lblRemove.AutoSize = true;
-            this.lblRemove.Location = new System.Drawing.Point(13, 18);
+            this.lblRemove.Location = new System.Drawing.Point(10, 15);
+            this.lblRemove.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblRemove.Name = "lblRemove";
-            this.lblRemove.Size = new System.Drawing.Size(60, 17);
+            this.lblRemove.Size = new System.Drawing.Size(47, 13);
             this.lblRemove.TabIndex = 2;
             this.lblRemove.Text = "Remove";
             // 
             // btnRemoveCancel
             // 
-            this.btnRemoveCancel.Location = new System.Drawing.Point(173, 64);
-            this.btnRemoveCancel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnRemoveCancel.Location = new System.Drawing.Point(130, 52);
+            this.btnRemoveCancel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnRemoveCancel.Name = "btnRemoveCancel";
-            this.btnRemoveCancel.Size = new System.Drawing.Size(75, 23);
+            this.btnRemoveCancel.Size = new System.Drawing.Size(56, 19);
             this.btnRemoveCancel.TabIndex = 1;
             this.btnRemoveCancel.Text = "Cancel";
             this.btnRemoveCancel.UseVisualStyleBackColor = true;
@@ -229,10 +230,10 @@
             // 
             // btnRemoveOk
             // 
-            this.btnRemoveOk.Location = new System.Drawing.Point(17, 64);
-            this.btnRemoveOk.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnRemoveOk.Location = new System.Drawing.Point(13, 52);
+            this.btnRemoveOk.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnRemoveOk.Name = "btnRemoveOk";
-            this.btnRemoveOk.Size = new System.Drawing.Size(75, 23);
+            this.btnRemoveOk.Size = new System.Drawing.Size(56, 19);
             this.btnRemoveOk.TabIndex = 0;
             this.btnRemoveOk.Text = "OK";
             this.btnRemoveOk.UseVisualStyleBackColor = true;
@@ -240,16 +241,15 @@
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(1052, 710);
+            this.ClientSize = new System.Drawing.Size(789, 577);
             this.Controls.Add(this.pnlRemove);
             this.Controls.Add(this.btnRemoveTicker);
             this.Controls.Add(this.pnlAdd);
             this.Controls.Add(this.btnAddTicker);
             this.Controls.Add(this.DataGrid);
-            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "MainForm";
             this.Text = "Exchange Monitor";
             ((System.ComponentModel.ISupportInitialize)(this.DataGrid)).EndInit();

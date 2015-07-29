@@ -14,8 +14,8 @@ namespace ExchangeMonitor.Engine.Web.Yql
         internal static YqlDataResponse Catch(string ticker)
         {
             if (string.IsNullOrEmpty(ticker)) 
-                return new YqlDataResponse(); 
-            
+                return new YqlDataResponse();
+
             try
             {
                 string url = string.Format(_uri, ticker);
@@ -23,22 +23,13 @@ namespace ExchangeMonitor.Engine.Web.Yql
                 var rootElement = doc.Element("query");
                 var resultsElement = rootElement.Element("results");
                 var rateElement = resultsElement.Element("rate");
-                
-                var nameItem = rateElement.Element("Name");
-                var rateItem = rateElement.Element("Rate");
-                var dateItem = rateElement.Element("Date");
-                var timeItem = rateElement.Element("Time");
-                var askItem = rateElement.Element("Ask");
-                var bidItem = rateElement.Element("Bid");
 
-                var result = new YqlDataResponse();
-                result.Name = nameItem.Value;
-                result.Rate = Convert.ToDouble(rateItem.Value);
-                result.Ask = Convert.ToDouble(askItem.Value);
-                result.Bid = Convert.ToDouble(bidItem.Value);
-
-                result.Success = true;
-                return result;
+                return new YqlDataResponse()
+                {
+                    Name = rateElement.Element("Name").Value,
+                    Rate = Convert.ToDouble(rateElement.Element("Rate").Value),
+                    Success = true
+                };
             }
             catch
             {
@@ -52,16 +43,12 @@ namespace ExchangeMonitor.Engine.Web.Yql
         public bool Success { get; set; }
         public string Name { get; set; }
         public Double Rate { get; set; }
-        public Double Ask { get; set; }
-        public Double Bid { get; set; }
 
         public override string ToString()
         {
-            return "Success: " + Success.ToString() 
-                + "\nName: " + Name 
-                + "\nRate: " + Rate.ToString()
-                + "\nAsk: " + Ask.ToString()
-                + "\nBid: " + Bid.ToString();
+            return "Success: " + Success.ToString()
+                + "\nName: " + Name
+                + "\nRate: " + Rate.ToString();
         }
     }
 }

@@ -206,7 +206,6 @@
             this.tbRemoveTicker.Name = "tbRemoveTicker";
             this.tbRemoveTicker.Size = new System.Drawing.Size(100, 22);
             this.tbRemoveTicker.TabIndex = 3;
-            this.tbRemoveTicker.TextChanged += new System.EventHandler(this.tbRemoveTicker_TextChanged);
             // 
             // lblRemove
             // 

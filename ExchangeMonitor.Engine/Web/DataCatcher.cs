@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ExchangeMonitor.Engine.Helper;
 
 namespace ExchangeMonitor.Engine.Web
 {
-    public static class DataCatcher
+    internal static class DataCatcher
     {
         private static Dictionary<string, TickerProperties> _tickerProperties = new Dictionary<string, TickerProperties>();
 
-        public static DataCatcherResponse Catch(string ticker)
+        internal static DataCatcherResponse Catch(string ticker)
         {
             var tickerProperties = new TickerProperties();
             if (!_tickerProperties.TryGetValue(ticker, out tickerProperties)) tickerProperties = PrepareTicker(ticker);
@@ -66,7 +67,7 @@ namespace ExchangeMonitor.Engine.Web
         }
     }
 
-    public class DataCatcherResponse
+    internal class DataCatcherResponse
     {
         public bool Success { get; set; }
         public string Name { get; set; }

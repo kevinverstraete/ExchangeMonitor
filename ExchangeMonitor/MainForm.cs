@@ -27,8 +27,6 @@ namespace ExchangeMonitor
             materialSkinManager.ColorScheme =
               new ColorScheme(Primary.Grey800, Primary.Grey900, Primary.Grey500, Accent.LightBlue200, TextShade.WHITE);
 
-            //_dataController.AddTickers("GOOG");
-            //_dataController.AddTickers("EURUSD=X");
             _dataController.DataFetched += _dataControllerDataFetched;
         }
 
@@ -40,25 +38,33 @@ namespace ExchangeMonitor
         }
         private void AddDataToGrid(ExchangeMonitor.Engine.ViewModel.Data data)
         {
-            if (InvokeRequired)
+            try
             {
-                this.Invoke(new Action<ExchangeMonitor.Engine.ViewModel.Data>(AddDataToGrid), new object[] { data });
+                if (InvokeRequired)
+                {
+                    this.Invoke(new Action<ExchangeMonitor.Engine.ViewModel.Data>(AddDataToGrid), new object[] { data });
+                    return;
+                }
+
+                int rowIndex = -1;
+                foreach (DataGridViewRow row in DataGrid.Rows)
+                {
+                    if (row.Cells[1].Value.ToString().Equals(data.Ticker))
+                    {
+                        rowIndex = row.Index;
+                    }
+                }
+
+                if (rowIndex != -1) SetRowValues(rowIndex, data);
+                else SetRowValues(DataGrid.Rows.Add(), data);
+
+                DataGrid.Refresh();
+
+            }
+            catch (Exception)
+            {
                 return;
             }
-
-            int rowIndex = -1;
-            foreach (DataGridViewRow row in DataGrid.Rows)
-            {
-                if (row.Cells[1].Value.ToString().Equals(data.Ticker))
-                {
-                    rowIndex = row.Index;
-                }
-            }
-
-            if (rowIndex != -1) SetRowValues(rowIndex, data);
-            else SetRowValues(DataGrid.Rows.Add(), data);
-
-            DataGrid.Refresh();
         }
         private void SetRowValues(int index, ExchangeMonitor.Engine.ViewModel.Data data)
         {

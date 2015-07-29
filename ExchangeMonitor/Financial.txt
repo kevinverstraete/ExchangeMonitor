@@ -16,6 +16,13 @@ http://www.jarloo.com/yahoo_finance/
 
 https://finance-yql.media.yahoo.com/v7/finance/chart/GOOG
 
+==>
+https://finance-yql.media.yahoo.com/v7/finance/chart/GOOG?interval=1m&indicators=quote%7Cbollinger~20-2&includeTimestamps=true&includePrePost=true&events=div%7Csplit%7Cearn&corsDomain=finance.yahoo.com
+
+Task Parallelism ???
+
+
+
 
 install html agilitypack
 

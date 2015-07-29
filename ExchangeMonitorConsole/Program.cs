@@ -15,10 +15,11 @@ namespace ExchangeMonitorConsole
         {
 
             var controller = new DataController();
+
+            controller.DataFetched += controller_DataFetched;
             controller.AddTickers("EURUSD=X");
             controller.AddTickers("GOOG");
 
-            controller.DataFetched += controller_DataFetched;
 
             Console.ReadKey();
         }

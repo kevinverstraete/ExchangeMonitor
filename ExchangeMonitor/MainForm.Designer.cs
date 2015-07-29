@@ -47,7 +47,7 @@
             this.tbRemoveTicker = new System.Windows.Forms.TextBox();
             this.lblRemove = new System.Windows.Forms.Label();
             this.btnRemoveCancel = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
+            this.btnRemoveOk = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.DataGrid)).BeginInit();
             this.pnlAdd.SuspendLayout();
             this.pnlRemove.SuspendLayout();
@@ -191,7 +191,7 @@
             this.pnlRemove.Controls.Add(this.tbRemoveTicker);
             this.pnlRemove.Controls.Add(this.lblRemove);
             this.pnlRemove.Controls.Add(this.btnRemoveCancel);
-            this.pnlRemove.Controls.Add(this.button5);
+            this.pnlRemove.Controls.Add(this.btnRemoveOk);
             this.pnlRemove.Location = new System.Drawing.Point(287, 161);
             this.pnlRemove.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pnlRemove.Name = "pnlRemove";
@@ -206,6 +206,7 @@
             this.tbRemoveTicker.Name = "tbRemoveTicker";
             this.tbRemoveTicker.Size = new System.Drawing.Size(100, 22);
             this.tbRemoveTicker.TabIndex = 3;
+            this.tbRemoveTicker.TextChanged += new System.EventHandler(this.tbRemoveTicker_TextChanged);
             // 
             // lblRemove
             // 
@@ -227,15 +228,16 @@
             this.btnRemoveCancel.UseVisualStyleBackColor = true;
             this.btnRemoveCancel.Click += new System.EventHandler(this.btnRemoveCancel_Click);
             // 
-            // button5
+            // btnRemoveOk
             // 
-            this.button5.Location = new System.Drawing.Point(17, 64);
-            this.button5.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(75, 23);
-            this.button5.TabIndex = 0;
-            this.button5.Text = "OK";
-            this.button5.UseVisualStyleBackColor = true;
+            this.btnRemoveOk.Location = new System.Drawing.Point(17, 64);
+            this.btnRemoveOk.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnRemoveOk.Name = "btnRemoveOk";
+            this.btnRemoveOk.Size = new System.Drawing.Size(75, 23);
+            this.btnRemoveOk.TabIndex = 0;
+            this.btnRemoveOk.Text = "OK";
+            this.btnRemoveOk.UseVisualStyleBackColor = true;
+            this.btnRemoveOk.Click += new System.EventHandler(this.btnRemoveOk_Click);
             // 
             // MainForm
             // 
@@ -272,7 +274,7 @@
         private System.Windows.Forms.Button btnRemoveTicker;
         private System.Windows.Forms.Panel pnlRemove;
         private System.Windows.Forms.Button btnRemoveCancel;
-        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button btnRemoveOk;
         private System.Windows.Forms.TextBox tbRemoveTicker;
         private System.Windows.Forms.Label lblRemove;
         private System.Windows.Forms.DataGridViewTextBoxColumn LastUpdate;

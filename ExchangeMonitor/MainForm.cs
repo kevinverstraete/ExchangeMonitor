@@ -106,6 +106,22 @@ namespace ExchangeMonitor
             pnlRemove.Hide();
         }
 
+        private void tbRemoveTicker_TextChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void btnRemoveOk_Click(object sender, EventArgs e)
+        {
+            int selectedIndex = DataGrid.CurrentCell.RowIndex;
+            if (selectedIndex != null)
+            {
+                DataGrid.Rows.RemoveAt(selectedIndex);
+                //DataGrid.Refresh();
+                _dataController.RemoveTicker(tbRemoveTicker.Text);
+            }
+        }
+
         
     }
 }

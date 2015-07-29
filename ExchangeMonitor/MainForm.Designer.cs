@@ -73,7 +73,7 @@
             this.DataGrid.ReadOnly = true;
             this.DataGrid.RowHeadersVisible = false;
             this.DataGrid.RowTemplate.Height = 24;
-            this.DataGrid.Size = new System.Drawing.Size(785, 377);
+            this.DataGrid.Size = new System.Drawing.Size(785, 480);
             this.DataGrid.TabIndex = 0;
             // 
             // LastUpdate
@@ -114,7 +114,8 @@
             // 
             // btnAddTicker
             // 
-            this.btnAddTicker.Location = new System.Drawing.Point(10, 464);
+            this.btnAddTicker.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnAddTicker.Location = new System.Drawing.Point(11, 547);
             this.btnAddTicker.Margin = new System.Windows.Forms.Padding(2);
             this.btnAddTicker.Name = "btnAddTicker";
             this.btnAddTicker.Size = new System.Drawing.Size(106, 19);
@@ -169,7 +170,8 @@
             // 
             // btnRemoveTicker
             // 
-            this.btnRemoveTicker.Location = new System.Drawing.Point(137, 464);
+            this.btnRemoveTicker.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnRemoveTicker.Location = new System.Drawing.Point(121, 547);
             this.btnRemoveTicker.Margin = new System.Windows.Forms.Padding(2);
             this.btnRemoveTicker.Name = "btnRemoveTicker";
             this.btnRemoveTicker.Size = new System.Drawing.Size(107, 19);

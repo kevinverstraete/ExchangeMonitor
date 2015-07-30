@@ -51,12 +51,17 @@
     <Compile Include="Controller\DataController.cs" />
     <Compile Include="Helper\Period.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Threading\ThreadRunner.cs" />
     <Compile Include="ViewModel\Data.cs" />
     <Compile Include="Web\ChartCatcher.cs" />
     <Compile Include="Web\DataCatcher.cs" />
     <Compile Include="Web\Html\HtmlDataCatcher.cs" />
     <Compile Include="Web\InfoCatcher.cs" />
+    <Compile Include="Web\InfoController.cs" />
+    <Compile Include="Web\YahooApis\Query\Request.cs" />
+    <Compile Include="Web\YahooApis\Query\YahooFinanceXchange\YahooFinanceXchange.cs" />
     <Compile Include="Web\Yql\Meta\Chart.cs" />
+    <Compile Include="Web\YahooApis\Query\YahooFinanceQuotes\YahooFinanceQuotes.cs" />
     <Compile Include="Web\Yql\YqlChartCatcher.cs" />
     <Compile Include="Web\Yql\YqlDataCatcher.cs" />
     <Compile Include="Web\Yql\YqlInfoCatcher.cs" />
@@ -64,6 +69,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

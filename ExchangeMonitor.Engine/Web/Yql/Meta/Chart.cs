@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExchangeMonitor.Engine.Web.Yql.Meta
+namespace ExchangeMonitor.Engine.Web.Yql.Meta.Chart
 {
     internal class Pre
     {

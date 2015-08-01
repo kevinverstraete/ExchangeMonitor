@@ -1,35 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace ExchangeMonitor.Engine.Threading
 {
-    public class ThreadRunner<T>
-    {
-        private class ThreadModel<S>
-        {
-            public AThreadMethod<S> Method { get; set; }
-            public Thread Thread { get; set; }
-        }
-        private Dictionary<string, ThreadModel<T>> _threads = new Dictionary<string, ThreadModel<T>>();
-
-        protected void Run(AThreadMethod<T> method)
-        {
-            if (_threads.ContainsKey(method.GetTicker())) return;
-            var tm = new ThreadModel<T>() { Thread = new Thread(new ThreadStart(method.Run)), Method = method };
-            _threads.Add(method.GetTicker(), tm);
-            method.Stop += MethodStop;
-            tm.Thread.Start();
-        }
-
-        private void MethodStop(object sender, EventArgs e)
-        {
-            var args = (ThreadMethodEventArgs<T>)e;
-            _threads.Remove(args.Ticker);
-        }
-    }
-
-    public abstract class AThreadMethod<T>
+    public abstract class AThreadWorkerMethod<T>
     {
         #region Events
         public event EventHandler Start;
@@ -58,7 +35,7 @@ namespace ExchangeMonitor.Engine.Threading
         #endregion Members
 
         #region ctor
-        public AThreadMethod(List<string> tickers)
+        public AThreadWorkerMethod(List<string> tickers)
         {
             Tickers = new List<string>();
             foreach (var item in tickers) Tickers.Add(item);
@@ -75,15 +52,4 @@ namespace ExchangeMonitor.Engine.Threading
         #endregion Run
         abstract public void Method();
     }
-
-    public class ThreadMethodEventArgs<T>: EventArgs
-    {
-        public string Ticker { get; private set; }
-        public T Data{ get; set; }
-        public ThreadMethodEventArgs(string ticker)
-        {
-            Ticker = ticker;
-        }
-    }
 }
-

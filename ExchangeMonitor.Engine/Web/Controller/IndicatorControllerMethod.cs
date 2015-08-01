@@ -33,39 +33,39 @@ namespace ExchangeMonitor.Engine.Web.Controller
                             response.Indicators.Add(new Indicator()
                             {
                                 Type = IndicatorType.Ema,
-                                Quote = chart.indicators.ema.LastOrDefault().ema.LastOrDefault()
+                                Quote = chart.indicators.ema.LastOrDefault().ema.Where(x => x.HasValue).LastOrDefault().GetValueOrDefault()
                             });
                             response.Indicators.Add(new Indicator()
                             {
                                 Type = IndicatorType.Macd,
-                                Quote = chart.indicators.macd.LastOrDefault().macd.LastOrDefault()
+                                Quote = chart.indicators.macd.LastOrDefault().macd.Where(x => x.HasValue).LastOrDefault().GetValueOrDefault()
                             });
                             response.Indicators.Add(new Indicator()
                             {
                                 Type = IndicatorType.Mfi,
-                                Quote = chart.indicators.mfi.LastOrDefault().mfi.LastOrDefault()
+                                Quote = chart.indicators.mfi.LastOrDefault().mfi.Where(x => x.HasValue).LastOrDefault().GetValueOrDefault()
                             });
                             response.Indicators.Add(new Indicator()
                             {
                                 Type = IndicatorType.Sma,
-                                Quote = chart.indicators.sma.LastOrDefault().sma.LastOrDefault()
+                                Quote = chart.indicators.sma.LastOrDefault().sma.Where(x => x.HasValue).LastOrDefault().GetValueOrDefault()
                             });
                             response.Indicators.Add(new Indicator()
                             {
                                 Type = IndicatorType.Rsi,
-                                Quote = chart.indicators.rsi.LastOrDefault().rsi.LastOrDefault()
+                                Quote = chart.indicators.rsi.LastOrDefault().rsi.Where(x => x.HasValue).LastOrDefault().GetValueOrDefault()
                             });
                             response.RangeIndicators.Add(new RangeIndicator()
                             {
                                 Type = RangeIndicatorType.Bollinger,
-                                Lower = chart.indicators.bollinger.LastOrDefault().lower.LastOrDefault(),
-                                Upper = chart.indicators.bollinger.LastOrDefault().upper.LastOrDefault()
+                                Lower = chart.indicators.bollinger.LastOrDefault().lower.Where(x => x.HasValue).LastOrDefault().GetValueOrDefault(),
+                                Upper = chart.indicators.bollinger.LastOrDefault().upper.Where(x => x.HasValue).LastOrDefault().GetValueOrDefault()
                             });
                             response.RangeIndicators.Add(new RangeIndicator()
                             {
                                 Type = RangeIndicatorType.Stoch,
-                                Lower = chart.indicators.stoch.LastOrDefault().d.LastOrDefault(),
-                                Upper = chart.indicators.stoch.LastOrDefault().k.LastOrDefault()
+                                Lower = chart.indicators.stoch.LastOrDefault().d.Where(x => x.HasValue).LastOrDefault().GetValueOrDefault(),
+                                Upper = chart.indicators.stoch.LastOrDefault().k.Where(x => x.HasValue).LastOrDefault().GetValueOrDefault()
                             });
                             var e = new ThreadMethodEventArgs<IndicatorControllerResponse>(ticker) { Data = response };
                             OnDataFetched(e);

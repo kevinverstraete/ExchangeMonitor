@@ -28,7 +28,7 @@ namespace ExchangeMonitor.Engine.Web.Controller
                 var infoControllerResponse = new InfoControllerResponse();
                 if (_cachedData.TryGetValue(item, out infoControllerResponse))
                 {
-                    var method = new InfoControllerDefaultThreadMethod(new List<string> { item }) { Response = infoControllerResponse };
+                    var method = new InfoControllerDefaultThreadMethod(new List<string>{item}) { Response = infoControllerResponse };
                     method.DataFetched += MethodDataFetched;
                     base.Run(method);
                 }

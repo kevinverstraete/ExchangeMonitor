@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ExchangeMonitor.Engine.Helper;
 
 namespace ExchangeMonitor.Engine.ViewModel
 {
@@ -15,7 +14,7 @@ namespace ExchangeMonitor.Engine.ViewModel
         public double Rate { get; set; }
         public double BollingerUpper { get; set; }
         public double BollingerLower { get; set; }
-        public Period RequestProcessingTime { get; set; }
+        public DateTime RequestProcessingTime { get; set; }
 
         public override string ToString()
         {

@@ -44,7 +44,7 @@ namespace ExchangeMonitor.Engine.Web.Yql
             var pipeSep = "%7C";
             var uri = new StringBuilder();
             uri.Append(@"https://finance-yql.media.yahoo.com/v7/finance/chart/").Append(ticker);
-            uri.Append("?").Append("interval=1d");
+            uri.Append("?").Append("interval=1m");
             uri.Append(@"&").Append("indicators=quote");
             uri.Append(pipeSep).Append("bollinger~20-2");
             uri.Append(pipeSep).Append("sma~50");

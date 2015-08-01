@@ -138,6 +138,7 @@ namespace ExchangeMonitor.Engine.Controller
                     select ind).FirstOrDefault();
                 data.BollingerLower = bollinger.Lower;
                 data.BollingerUpper = bollinger.Upper;
+                data.RequestProcessingTime = DateTime.Now;
                 OnDataFetched(data);
             }
         }

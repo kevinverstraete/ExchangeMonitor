@@ -56,6 +56,9 @@
     <Compile Include="Threading\ThreadWorker.cs" />
     <Compile Include="ViewModel\Data.cs" />
     <Compile Include="Web\ChartCatcher.cs" />
+    <Compile Include="Web\Controller\IndicatorController.cs" />
+    <Compile Include="Web\Controller\IndicatorControllerMethod.cs" />
+    <Compile Include="Web\Controller\IndicatorControllerResponse.cs" />
     <Compile Include="Web\Controller\InfoControllerDefaultThreadMethod.cs" />
     <Compile Include="Web\Controller\InfoControllerResponse.cs" />
     <Compile Include="Web\Controller\InfoControllerThreadMethod.cs" />

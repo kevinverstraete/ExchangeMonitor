@@ -13,13 +13,18 @@ namespace ExchangeMonitor.Engine.Threading
         }
         private Dictionary<string, ThreadModel<T>> _threads = new Dictionary<string, ThreadModel<T>>();
 
+        private Object threadLock = new Object();
         protected void Run(AThreadWorkerMethod<T> method)
         {
-            if (_threads.ContainsKey(method.GetTicker())) return;
-            var tm = new ThreadModel<T>() { Thread = new Thread(new ThreadStart(method.Run)), Method = method };
-            _threads.Add(method.GetTicker(), tm);
-            method.Stop += MethodStop;
-            tm.Thread.Start();
+            lock (threadLock)
+            {
+
+                if (_threads.ContainsKey(method.GetTicker())) return;
+                var tm = new ThreadModel<T>() { Thread = new Thread(new ThreadStart(method.Run)), Method = method };
+                _threads.Add(method.GetTicker(), tm);
+                method.Stop += MethodStop;
+                tm.Thread.Start();
+            }
         }
 
         private void MethodStop(object sender, EventArgs e)

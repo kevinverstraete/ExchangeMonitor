@@ -57,7 +57,6 @@ namespace ExchangeMonitor.Engine.Web.Controller
                 var method = new RateControllerYahooThreadMethod(yahooTickers);
                 method.DataFetched += MethodDataFetched;
                 base.Run(method);
-
             }
         }
 
@@ -85,7 +84,6 @@ namespace ExchangeMonitor.Engine.Web.Controller
             }
         }
 
-        private Object fetchLock = new Object();
         private void MethodDataFetched(object sender, EventArgs e)
         {
             var args = (ThreadMethodEventArgs<RateControllerResponse>)e;

@@ -77,14 +77,19 @@ namespace ExchangeMonitor.Engine.Controller
                 PulldataForTicker(item.Key);
             }
         }
+
+        private Object pullDataLock = new Object();
         private void PulldataForTicker(string ticker)
         {
-            if (_threads.ContainsKey(ticker)) return;
-            var ttr = new ThreadToRetriever();
-            ttr.DataRetriever = new DataRetriever(ticker, DataPulledByRetriever);
-            ttr.Thread = new Thread(new ThreadStart(ttr.DataRetriever.Run));
-            _threads.Add(ticker, ttr);
-            ttr.Thread.Start();
+            lock (pullDataLock)
+            {
+                if (_threads.ContainsKey(ticker)) return;
+                var ttr = new ThreadToRetriever();
+                ttr.DataRetriever = new DataRetriever(ticker, DataPulledByRetriever);
+                ttr.Thread = new Thread(new ThreadStart(ttr.DataRetriever.Run));
+                _threads.Add(ticker, ttr);
+                ttr.Thread.Start();
+            }
         }
         #endregion PullAll
 

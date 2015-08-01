@@ -24,12 +24,8 @@ namespace ExchangeMonitor.Engine.Web
                     select item).FirstOrDefault();
                 var bollinger = data.indicators.bollinger.FirstOrDefault();
 
-                var bollingerlower = (from item in bollinger.lower
-                                          where item.HasValue==true
-                                      select item).LastOrDefault().GetValueOrDefault();
-                var bollingerupper= (from item in bollinger.upper
-                                      where item.HasValue == true
-                                      select item).LastOrDefault().GetValueOrDefault();
+                var bollingerlower = (from item in bollinger.lower select item).LastOrDefault();
+                var bollingerupper= (from item in bollinger.upper select item).LastOrDefault();
 
 
                 return new ChartCatcherResponse()

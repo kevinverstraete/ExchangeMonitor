@@ -18,15 +18,25 @@ namespace ExchangeMonitorConsole
             //var responsex = ExchangeMonitor.Engine.Web.YahooApis.Query.Request.XchangeForSingle("EURUSD=X");
             //var responsex2 = ExchangeMonitor.Engine.Web.YahooApis.Query.Request.XchangeForSingle("EURUSD");
 
-            var rc = new RateController();
-            rc.DataFetched += rc_DataFetched;
-            rc.Run(new List<string> { "GOOG", "YHOO", "EURUSD", "EURUSD=X" });
+            var ic = new IndicatorController();
+            ic.DataFetched += ic_DataFetched; ;
+            ic.Run(new List<string> { "GOOG" });
+            Console.ReadKey();
+            ic.Run(new List<string> { "GOOG", "YHOO", "EURUSD", "EURUSD=X" });
 
             Console.ReadKey();
-            rc.Run(new List<string> { "GOOG", "YHOO", "EURUSD", "EURUSD=X" });
+            ic.Run(new List<string> { "GOOG", "YHOO", "EURUSD", "EURUSD=X" });
 
 
             Console.ReadKey();
+        }
+
+        static void ic_DataFetched(object sender, EventArgs e)
+        {
+            var eventArgs = (ThreadMethodEventArgs<IndicatorControllerResponse>)e;
+
+            Console.WriteLine("\nEvent-");
+            Console.WriteLine(eventArgs.Data.ToString());
         }
 
         static void rc_DataFetched(object sender, EventArgs e)

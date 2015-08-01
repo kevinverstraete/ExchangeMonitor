@@ -12,7 +12,6 @@ namespace ExchangeMonitor.Engine.Web.Yql
 {
     internal static class YqlChartCatcher
     {
-        private const string _uri = "https://finance-yql.media.yahoo.com/v7/finance/chart/{0}?interval=1m&indicators=quote%7Cbollinger~20-2&includeTimestamps=true&includePrePost=true&events=div%7Csplit%7Cearn&corsDomain=finance.yahoo.com";
         internal static YqlChartResponse Catch(string ticker)
         {
             if (string.IsNullOrEmpty(ticker))
@@ -20,7 +19,7 @@ namespace ExchangeMonitor.Engine.Web.Yql
 
             try
             {
-                string url = string.Format(_uri, ticker);
+                string url = BuildUri(ticker);
                 var client = new WebClient();
                 string reply = client.DownloadString(url);
                 return new YqlChartResponse() { 
@@ -38,6 +37,28 @@ namespace ExchangeMonitor.Engine.Web.Yql
         {
             Newtonsoft.Json.JsonSerializer s = new JsonSerializer();
             return s.Deserialize<RootObject>(new JsonTextReader(new StringReader(json)));
+        }
+
+        private static string BuildUri(string ticker)
+        {
+            var pipeSep = "%7C";
+            var uri = new StringBuilder();
+            uri.Append(@"https://finance-yql.media.yahoo.com/v7/finance/chart/").Append(ticker);
+            uri.Append("?").Append("interval=1d");
+            uri.Append(@"&").Append("indicators=quote");
+            uri.Append(pipeSep).Append("bollinger~20-2");
+            uri.Append(pipeSep).Append("sma~50");
+            uri.Append(pipeSep).Append("ema~50");
+            uri.Append(pipeSep).Append("mfi~14");
+            uri.Append(pipeSep).Append("macd~26-12-9");
+            uri.Append(pipeSep).Append("rsi~14");
+            uri.Append(pipeSep).Append("stoch~14-1-3");
+            uri.Append(@"&").Append("includePrePost=true");
+            uri.Append(@"&").Append("events=div");
+            uri.Append(pipeSep).Append("split");
+            uri.Append(pipeSep).Append("earn");
+            uri.Append(@"&").Append("corsDomain=finance.yahoo.com");
+            return uri.ToString();
         }
     }
 

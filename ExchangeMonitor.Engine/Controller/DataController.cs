@@ -1,39 +1,57 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using ExchangeMonitor.Engine.Threading;
+using ExchangeMonitor.Engine.Web.Controller;
+using System;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Timers;
+using System.Collections.Generic;
 
 namespace ExchangeMonitor.Engine.Controller
 {
     public class DataController
     {
-        #region private members
-        private int _interval;
-        private Dictionary<string, DataControllerEventArgs> _tickers = new Dictionary<string, DataControllerEventArgs>();
-        private Dictionary<string, ThreadToRetriever> _threads = new Dictionary<string, ThreadToRetriever>();
-        private System.Timers.Timer _timer = new System.Timers.Timer();
-        #endregion private members
+        #region Private Members
+        private Dictionary<string, ViewModel.Data> _tickers = new Dictionary<string, ViewModel.Data>();
 
-        #region Public Properties
-        private int _bollingerMargin;
-        public int BollingerMargin
+        private IndicatorController _indicatorController = new IndicatorController();
+        private InfoController _infoController = new InfoController();
+        private RateController _rateController = new RateController();
+
+        private System.Timers.Timer _rateTimer = new System.Timers.Timer();
+        private System.Timers.Timer _indicatorTimer = new System.Timers.Timer();
+        #endregion Private Members
+
+        #region ctor
+        public DataController()
         {
-            get { return _bollingerMargin; }
-            set
-            {
-                _bollingerMargin = value;
-                if (_bollingerMargin > 100) _bollingerMargin = 100;
-                else if (_bollingerMargin < 0) _bollingerMargin = 0;
-            }
+            DefineControllers();
+            DefineTimers();
         }
-        #endregion Public Properties
+        private void DefineControllers()
+        {
+            _infoController.DataFetched += _infoControllerDataFetched;
+            _rateController.DataFetched += _rateControllerDataFetched;
+            _indicatorController.DataFetched += _indicatorControllerDataFetched;
+        }
+        private void DefineTimers()
+        {
+            _rateTimer = new System.Timers.Timer(2000);
+            _indicatorTimer = new System.Timers.Timer(10000);
+            _rateTimer.Elapsed += _rateTimerElapsed;
+            _indicatorTimer.Elapsed += _indicatorTimerElapsed;
+            _rateTimer.Enabled = true;
+            _indicatorTimer.Enabled = true;
+        }
+        #endregion ctor
 
         #region events
         public event EventHandler DataFetched;
-        protected virtual void OnDataFetched(EventArgs e)
+        protected virtual void OnDataFetched(ViewModel.Data data)
+        {
+            OnDataFetched(new DataControllerEventArgs(){
+                Success = true,
+                Data = data
+            });
+        }
+        protected virtual void OnDataFetched(DataControllerEventArgs e)
         {
             if (DataFetched == null) return;
             DataFetched(this, e);
@@ -46,113 +64,39 @@ namespace ExchangeMonitor.Engine.Controller
         }
         #endregion events
 
-        #region ctor
-        public DataController()
-        {
-
-            BollingerMargin = 0;
-            _interval = 2000;
-            DataFetched += DataControllerDataFetched;
-            _timer = new System.Timers.Timer(_interval);
-            _timer.Elapsed += _timerElapsed;
-            _timer.Enabled = true;
-        }
-
-
-        public DataController(int interval) : this()
-        {
-            if (interval > 0) _interval = interval;
-        }
-        #endregion ctor
-
-        #region PullData
-        private void _timerElapsed(object sender, ElapsedEventArgs e)
-        {
-            Pull();
-        }
-        public void Pull()
-        {
-            foreach (var item in _tickers)
-            {
-                PulldataForTicker(item.Key);
-            }
-        }
-
-        private Object pullDataLock = new Object();
-        private void PulldataForTicker(string ticker)
-        {
-            lock (pullDataLock)
-            {
-                if (_threads.ContainsKey(ticker)) return;
-                var ttr = new ThreadToRetriever();
-                ttr.DataRetriever = new DataRetriever(ticker, DataPulledByRetriever);
-                ttr.Thread = new Thread(new ThreadStart(ttr.DataRetriever.Run));
-                _threads.Add(ticker, ttr);
-                ttr.Thread.Start();
-            }
-        }
-        #endregion PullAll
-
-        #region DataPulled
-        private bool DataPulledByRetriever(bool success, ViewModel.Data data)
-        {
-            _threads.Remove(data.Ticker);
-            if (!_tickers.ContainsKey(data.Ticker)) return false;
-            var e = new DataControllerEventArgs()
-            {
-                Success = success,
-                Data = data
-            };
-            OnDataFetched(e);
-            return true;
-        }
-        private void DataControllerDataFetched(object sender, EventArgs e)
-        { 
-            var args = (DataControllerEventArgs) e;
-            if (!args.Success) return;
-
-            // fetch previous data
-            DataControllerEventArgs previousArgs;
-            if (!_tickers.TryGetValue(args.Data.Ticker, out previousArgs)) previousArgs = new DataControllerEventArgs();
-
-            // verify
-            if (previousArgs.Success) 
-                if (!DataNeedsAlarm(previousArgs.Data) && DataNeedsAlarm(args.Data)) 
-                    OnBollingerAlarm(args);
-            else if (DataNeedsAlarm(args.Data)) 
-                    OnBollingerAlarm(args);
-
-            // save current data
-            if (_tickers.ContainsKey(args.Data.Ticker)) _tickers[args.Data.Ticker] = args;
-        }
-        #endregion PullData
-
-        #region BollingerAlarm
-        private bool DataNeedsAlarm(ViewModel.Data data)
-        {
-            if (data.BollingerUpper == 0.0) return false;
-            if (data.BollingerLower == 0.0) return false;
-
-            // standard checks, alarm needed if yu cross the line
-            if (data.BollingerUpper < data.Rate) return true;
-            if (data.BollingerLower > data.Rate) return true;
-
-            // use a margin
-            var marginPercentage = Convert.ToDouble(BollingerMargin)/100;
-            var bollingerUpperWithMargin = data.BollingerUpper - ((data.BollingerUpper - data.Rate) * marginPercentage);
-            if (bollingerUpperWithMargin < data.Rate) return true;
-            var bollingerLowerWithMargin = data.BollingerLower + ((data.Rate - data.BollingerLower) * marginPercentage);
-            if (bollingerLowerWithMargin > data.Rate) return true;
-
-            return false;
-        }
-        #endregion BollingerAlarm
-
         #region Tickers
-        public void AddTickers(string ticker)
+        public void AddTicker(string ticker)
         {
-            _tickers.Add(ticker, new DataControllerEventArgs());
-            PulldataForTicker(ticker);
+            AddTickers(new List<string>{ ticker});
+        }
+        public void AddTickers(List<string> tickers)
+        {
+            var todo = new List<string>();
+            foreach (var item in tickers)
+            {
+                if (!string.IsNullOrEmpty(item))
+                {
+                    AddtickerToDictionary(item);
+                    todo.Add(item);
+                }
+            }
+            _infoController.Run(todo);
+            _rateController.Run(todo);
+            _indicatorController.Run(todo);
+        }
+        private Object addtickerToDictionaryLock = new Object();
+        private void AddtickerToDictionary(string ticker)
+        {
+            lock (addtickerToDictionaryLock)
+            {
+                if (_tickers.ContainsKey(ticker)) return ;
+                var data = new ViewModel.Data()
+                {
+                    Ticker = ticker
+                };
+                _tickers.Add(ticker, data);
+                OnDataFetched(data);
+            }
         }
         public void RemoveTicker(string ticker)
         {
@@ -160,13 +104,65 @@ namespace ExchangeMonitor.Engine.Controller
         }
         #endregion Tickers
 
-        #region Retriever Class
-        private class ThreadToRetriever
+        #region Timer
+        private void _indicatorTimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            public DataRetriever DataRetriever { get; set; }
-            public Thread Thread { get; set; }
+            List<string> tickers = (from ticker in _tickers
+                          select ticker.Key).ToList<string>();
+            _indicatorController.Run(tickers);
         }
-        #endregion Retriever Class
+        private void _rateTimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            List<string> tickers = (from ticker in _tickers
+                                    select ticker.Key).ToList<string>();
+            _rateController.Run(tickers);
+        }
+        #endregion TimerElapsed
+
+        #region Controller Data Fecthed
+        private ViewModel.Data GetData(string ticker)
+        {
+            var data = new ViewModel.Data();
+            if (_tickers.TryGetValue(ticker, out data)) return data;
+            return null;
+        }
+        private void _indicatorControllerDataFetched(object sender, EventArgs e)
+        {
+            var args = (ThreadMethodEventArgs<IndicatorControllerResponse>)e;
+            var data = GetData(args.Ticker);
+            if (data != null)
+            {
+                var bollinger = 
+                    (from ind in args.Data.RangeIndicators
+                    where ind.Type == RangeIndicatorType.Bollinger
+                    select ind).FirstOrDefault();
+                data.BollingerLower = bollinger.Lower;
+                data.BollingerUpper = bollinger.Upper;
+                OnDataFetched(data);
+            }
+        }
+        private void _rateControllerDataFetched(object sender, EventArgs e)
+        {
+            var args = (ThreadMethodEventArgs<RateControllerResponse>)e;
+            var data = GetData(args.Ticker);
+            if (data != null)
+            {
+                data.Rate = args.Data.Rate;
+                OnDataFetched(data);
+            }
+        }
+        private void _infoControllerDataFetched(object sender, EventArgs e)
+        {
+            var args = (ThreadMethodEventArgs<InfoControllerResponse>)e;
+            var data = GetData(args.Ticker);
+            if (data != null)
+            {
+                data.Name = args.Data.Name;
+                data.StockExchange = args.Data.StockExchange;
+                OnDataFetched(data);
+            }
+        }
+        #endregion Controller Data Fecthed
     }
 
     public class DataControllerEventArgs : EventArgs

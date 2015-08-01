@@ -18,48 +18,20 @@ namespace ExchangeMonitorConsole
             //var responsex = ExchangeMonitor.Engine.Web.YahooApis.Query.Request.XchangeForSingle("EURUSD=X");
             //var responsex2 = ExchangeMonitor.Engine.Web.YahooApis.Query.Request.XchangeForSingle("EURUSD");
 
-            var ic = new IndicatorController();
-            ic.DataFetched += ic_DataFetched; ;
-            ic.Run(new List<string> { "GOOG" });
+            var dc = new DataController();
+            dc.DataFetched += dc_DataFetched;
+            dc.AddTicker("GOOG");
+            dc.AddTicker("YHOO");
             Console.ReadKey();
-            ic.Run(new List<string> { "GOOG", "YHOO", "EURUSD", "EURUSD=X" });
-
-            Console.ReadKey();
-            ic.Run(new List<string> { "GOOG", "YHOO", "EURUSD", "EURUSD=X" });
-
-
             Console.ReadKey();
         }
 
-        static void ic_DataFetched(object sender, EventArgs e)
+        static void dc_DataFetched(object sender, EventArgs e)
         {
-            var eventArgs = (ThreadMethodEventArgs<IndicatorControllerResponse>)e;
-
-            Console.WriteLine("\nEvent-");
-            Console.WriteLine(eventArgs.Data.ToString());
+            var args = (DataControllerEventArgs)e;
+            Console.WriteLine("----");
+            Console.WriteLine(args.Data);
         }
 
-        static void rc_DataFetched(object sender, EventArgs e)
-        {
-            var eventArgs = (ThreadMethodEventArgs<RateControllerResponse>)e;
-
-            Console.WriteLine("\nEvent-");
-            Console.WriteLine(eventArgs.Data.ToString());
-        }
-
-        static void c_DataFetched(object sender, EventArgs e)
-        {
-            var eventArgs = (ThreadMethodEventArgs<InfoControllerResponse>)e;
-
-            Console.WriteLine("\nEvent-");
-            Console.WriteLine(eventArgs.Data.ToString());
-        }
-
-        static void controller_DataFetched(object sender, EventArgs e) {
-          var eventArgs = (DataControllerEventArgs)e;
-
-          Console.WriteLine("\nEvent");
-          Console.WriteLine(eventArgs.Data.ToString());
-        }
     }
 }

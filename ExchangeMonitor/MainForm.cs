@@ -96,7 +96,7 @@ namespace ExchangeMonitor
 
         private void btnAddOk_Click(object sender, EventArgs e)
         {
-            _dataController.AddTickers(tbAdd.Text);
+            _dataController.AddTicker(tbAdd.Text);
             pnlAdd.Hide();
         }
         #endregion AddPanel

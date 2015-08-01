@@ -47,7 +47,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controller\DataRetriever.cs" />
     <Compile Include="Controller\DataController.cs" />
     <Compile Include="Helper\Period.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -55,7 +54,6 @@
     <Compile Include="Threading\ThreadMethodEventArgs.cs" />
     <Compile Include="Threading\ThreadWorker.cs" />
     <Compile Include="ViewModel\Data.cs" />
-    <Compile Include="Web\ChartCatcher.cs" />
     <Compile Include="Web\Controller\IndicatorController.cs" />
     <Compile Include="Web\Controller\IndicatorControllerMethod.cs" />
     <Compile Include="Web\Controller\IndicatorControllerResponse.cs" />
@@ -65,10 +63,8 @@
     <Compile Include="Web\Controller\RateControllerHtmlThreadMethod.cs" />
     <Compile Include="Web\Controller\RateControllerResponse.cs" />
     <Compile Include="Web\Controller\RateControllerYahooThreadMethod.cs" />
-    <Compile Include="Web\DataCatcher.cs" />
     <Compile Include="Web\Controller\RateController.cs" />
     <Compile Include="Web\Html\HtmlDataCatcher.cs" />
-    <Compile Include="Web\InfoCatcher.cs" />
     <Compile Include="Web\Controller\InfoController.cs" />
     <Compile Include="Web\YahooApis\Query\Request.cs" />
     <Compile Include="Web\YahooApis\Query\YahooFinanceXchange\YahooFinanceXchange.cs" />

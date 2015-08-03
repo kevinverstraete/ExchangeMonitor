@@ -4,6 +4,7 @@ using MaterialSkin.Controls;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.Linq;
@@ -28,6 +29,7 @@ namespace ExchangeMonitor
               new ColorScheme(Primary.Grey800, Primary.Grey900, Primary.Grey500, Accent.LightBlue200, TextShade.WHITE);
 
             _dataController.DataFetched += _dataControllerDataFetched;
+            LoadTickersFromConfig();
         }
 
         #region AddDataToGrid
@@ -85,6 +87,7 @@ namespace ExchangeMonitor
         #region AddPanel
         private void btnAddTicker_Click(object sender, EventArgs e)
         {
+            tbAdd.Text = "";
             pnlAdd.Show();
             tbAdd.Focus();
         }
@@ -97,6 +100,7 @@ namespace ExchangeMonitor
         private void btnAddOk_Click(object sender, EventArgs e)
         {
             _dataController.AddTicker(tbAdd.Text);
+            SaveTickersToConfig();
             pnlAdd.Hide();
         }
         #endregion AddPanel
@@ -105,6 +109,7 @@ namespace ExchangeMonitor
         private void btnRemoveTicker_Click(object sender, EventArgs e)
         {
             pnlRemove.Show();
+            tbRemoveTicker.Text = "";
             tbRemoveTicker.Focus();
         }
 
@@ -116,6 +121,7 @@ namespace ExchangeMonitor
         private void btnRemoveOk_Click(object sender, EventArgs e)
         {
             _dataController.RemoveTicker(tbRemoveTicker.Text);
+            SaveTickersToConfig();
             int selectedIndex = GetIndexForTicker(tbRemoveTicker.Text);
             if (selectedIndex != -1)
             {
@@ -124,5 +130,33 @@ namespace ExchangeMonitor
             pnlRemove.Hide();
         }
         #endregion RemovePanel      
+
+        #region Config
+        public void SaveTickersToConfig()
+        {
+            ConfigSetValue(_dataController.GetTickers());
+        }
+        public void LoadTickersFromConfig()
+        {
+            string[] tickers = ConfigReadValue().Split(',');
+            foreach (var item in tickers)
+            {
+                _dataController.AddTicker(item);
+            }
+        }
+        public static void ConfigSetValue(string value, string key = "Tickers")
+        {
+            var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            if (config.AppSettings.Settings[key] != null) config.AppSettings.Settings[key].Value = value;
+            else config.AppSettings.Settings.Add(key, value);
+            config.Save(ConfigurationSaveMode.Modified);
+        }
+        public static string ConfigReadValue(string key = "Tickers")
+        {
+            var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            if (config.AppSettings.Settings[key] == null) return string.Empty;
+            return config.AppSettings.Settings[key].Value;
+        }
+        #endregion Config
     }
 }

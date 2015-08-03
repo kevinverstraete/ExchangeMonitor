@@ -19,6 +19,12 @@ namespace ExchangeMonitor.Engine.Controller
         private System.Timers.Timer _indicatorTimer = new System.Timers.Timer();
         #endregion Private Members
 
+        #region Get
+        public string GetTickers()
+        {
+            return string.Join(",", _tickers.Keys.ToArray());
+        }
+        #endregion Get
         #region ctor
         public DataController()
         {

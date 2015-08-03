@@ -37,6 +37,7 @@
             this.BollingerLower = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnAddTicker = new System.Windows.Forms.Button();
             this.pnlAdd = new System.Windows.Forms.Panel();
+            this.lblAdd = new System.Windows.Forms.Label();
             this.btnAddCancel = new System.Windows.Forms.Button();
             this.btnAddOk = new System.Windows.Forms.Button();
             this.tbAdd = new System.Windows.Forms.TextBox();
@@ -46,9 +47,12 @@
             this.lblRemove = new System.Windows.Forms.Label();
             this.btnRemoveCancel = new System.Windows.Forms.Button();
             this.btnRemoveOk = new System.Windows.Forms.Button();
+            this.AlarmGrid = new System.Windows.Forms.DataGridView();
+            this.Alarm = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.DataGrid)).BeginInit();
             this.pnlAdd.SuspendLayout();
             this.pnlRemove.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.AlarmGrid)).BeginInit();
             this.SuspendLayout();
             // 
             // DataGrid
@@ -73,7 +77,7 @@
             this.DataGrid.ReadOnly = true;
             this.DataGrid.RowHeadersVisible = false;
             this.DataGrid.RowTemplate.Height = 24;
-            this.DataGrid.Size = new System.Drawing.Size(785, 480);
+            this.DataGrid.Size = new System.Drawing.Size(581, 480);
             this.DataGrid.TabIndex = 0;
             // 
             // LastUpdate
@@ -127,20 +131,32 @@
             // pnlAdd
             // 
             this.pnlAdd.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlAdd.Controls.Add(this.lblAdd);
             this.pnlAdd.Controls.Add(this.btnAddCancel);
             this.pnlAdd.Controls.Add(this.btnAddOk);
             this.pnlAdd.Controls.Add(this.tbAdd);
             this.pnlAdd.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.pnlAdd.Location = new System.Drawing.Point(215, 217);
+            this.pnlAdd.Location = new System.Drawing.Point(11, 93);
             this.pnlAdd.Margin = new System.Windows.Forms.Padding(2);
             this.pnlAdd.Name = "pnlAdd";
-            this.pnlAdd.Size = new System.Drawing.Size(201, 123);
-            this.pnlAdd.TabIndex = 2;
+            this.pnlAdd.Size = new System.Drawing.Size(156, 72);
+            this.pnlAdd.TabIndex = 1;
             this.pnlAdd.Visible = false;
+            // 
+            // lblAdd
+            // 
+            this.lblAdd.AutoSize = true;
+            this.lblAdd.ForeColor = System.Drawing.Color.White;
+            this.lblAdd.Location = new System.Drawing.Point(9, 20);
+            this.lblAdd.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblAdd.Name = "lblAdd";
+            this.lblAdd.Size = new System.Drawing.Size(26, 13);
+            this.lblAdd.TabIndex = 3;
+            this.lblAdd.Text = "Add";
             // 
             // btnAddCancel
             // 
-            this.btnAddCancel.Location = new System.Drawing.Point(117, 54);
+            this.btnAddCancel.Location = new System.Drawing.Point(89, 44);
             this.btnAddCancel.Margin = new System.Windows.Forms.Padding(2);
             this.btnAddCancel.Name = "btnAddCancel";
             this.btnAddCancel.Size = new System.Drawing.Size(56, 19);
@@ -151,7 +167,7 @@
             // 
             // btnAddOk
             // 
-            this.btnAddOk.Location = new System.Drawing.Point(24, 54);
+            this.btnAddOk.Location = new System.Drawing.Point(12, 44);
             this.btnAddOk.Margin = new System.Windows.Forms.Padding(2);
             this.btnAddOk.Name = "btnAddOk";
             this.btnAddOk.Size = new System.Drawing.Size(56, 19);
@@ -162,10 +178,10 @@
             // 
             // tbAdd
             // 
-            this.tbAdd.Location = new System.Drawing.Point(24, 20);
+            this.tbAdd.Location = new System.Drawing.Point(69, 20);
             this.tbAdd.Margin = new System.Windows.Forms.Padding(2);
             this.tbAdd.Name = "tbAdd";
-            this.tbAdd.Size = new System.Drawing.Size(150, 20);
+            this.tbAdd.Size = new System.Drawing.Size(76, 20);
             this.tbAdd.TabIndex = 0;
             // 
             // btnRemoveTicker
@@ -175,7 +191,7 @@
             this.btnRemoveTicker.Margin = new System.Windows.Forms.Padding(2);
             this.btnRemoveTicker.Name = "btnRemoveTicker";
             this.btnRemoveTicker.Size = new System.Drawing.Size(107, 19);
-            this.btnRemoveTicker.TabIndex = 3;
+            this.btnRemoveTicker.TabIndex = 2;
             this.btnRemoveTicker.Text = "Remove Ticker";
             this.btnRemoveTicker.UseVisualStyleBackColor = true;
             this.btnRemoveTicker.Click += new System.EventHandler(this.btnRemoveTicker_Click);
@@ -186,25 +202,26 @@
             this.pnlRemove.Controls.Add(this.lblRemove);
             this.pnlRemove.Controls.Add(this.btnRemoveCancel);
             this.pnlRemove.Controls.Add(this.btnRemoveOk);
-            this.pnlRemove.Location = new System.Drawing.Point(215, 131);
+            this.pnlRemove.Location = new System.Drawing.Point(42, 127);
             this.pnlRemove.Margin = new System.Windows.Forms.Padding(2);
             this.pnlRemove.Name = "pnlRemove";
-            this.pnlRemove.Size = new System.Drawing.Size(200, 81);
+            this.pnlRemove.Size = new System.Drawing.Size(156, 69);
             this.pnlRemove.TabIndex = 4;
             this.pnlRemove.Visible = false;
             // 
             // tbRemoveTicker
             // 
-            this.tbRemoveTicker.Location = new System.Drawing.Point(70, 15);
+            this.tbRemoveTicker.Location = new System.Drawing.Point(70, 12);
             this.tbRemoveTicker.Margin = new System.Windows.Forms.Padding(2);
             this.tbRemoveTicker.Name = "tbRemoveTicker";
             this.tbRemoveTicker.Size = new System.Drawing.Size(76, 20);
-            this.tbRemoveTicker.TabIndex = 3;
+            this.tbRemoveTicker.TabIndex = 0;
             // 
             // lblRemove
             // 
             this.lblRemove.AutoSize = true;
-            this.lblRemove.Location = new System.Drawing.Point(10, 15);
+            this.lblRemove.ForeColor = System.Drawing.Color.White;
+            this.lblRemove.Location = new System.Drawing.Point(10, 12);
             this.lblRemove.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblRemove.Name = "lblRemove";
             this.lblRemove.Size = new System.Drawing.Size(47, 13);
@@ -213,25 +230,48 @@
             // 
             // btnRemoveCancel
             // 
-            this.btnRemoveCancel.Location = new System.Drawing.Point(130, 52);
+            this.btnRemoveCancel.Location = new System.Drawing.Point(90, 42);
             this.btnRemoveCancel.Margin = new System.Windows.Forms.Padding(2);
             this.btnRemoveCancel.Name = "btnRemoveCancel";
             this.btnRemoveCancel.Size = new System.Drawing.Size(56, 19);
-            this.btnRemoveCancel.TabIndex = 1;
+            this.btnRemoveCancel.TabIndex = 2;
             this.btnRemoveCancel.Text = "Cancel";
             this.btnRemoveCancel.UseVisualStyleBackColor = true;
             this.btnRemoveCancel.Click += new System.EventHandler(this.btnRemoveCancel_Click);
             // 
             // btnRemoveOk
             // 
-            this.btnRemoveOk.Location = new System.Drawing.Point(13, 52);
+            this.btnRemoveOk.Location = new System.Drawing.Point(13, 42);
             this.btnRemoveOk.Margin = new System.Windows.Forms.Padding(2);
             this.btnRemoveOk.Name = "btnRemoveOk";
             this.btnRemoveOk.Size = new System.Drawing.Size(56, 19);
-            this.btnRemoveOk.TabIndex = 0;
+            this.btnRemoveOk.TabIndex = 1;
             this.btnRemoveOk.Text = "OK";
             this.btnRemoveOk.UseVisualStyleBackColor = true;
             this.btnRemoveOk.Click += new System.EventHandler(this.btnRemoveOk_Click);
+            // 
+            // AlarmGrid
+            // 
+            this.AlarmGrid.AllowUserToAddRows = false;
+            this.AlarmGrid.AllowUserToDeleteRows = false;
+            this.AlarmGrid.AllowUserToOrderColumns = true;
+            this.AlarmGrid.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.AlarmGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.AlarmGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Alarm});
+            this.AlarmGrid.Location = new System.Drawing.Point(588, 63);
+            this.AlarmGrid.Name = "AlarmGrid";
+            this.AlarmGrid.RowHeadersVisible = false;
+            this.AlarmGrid.Size = new System.Drawing.Size(200, 480);
+            this.AlarmGrid.TabIndex = 5;
+            // 
+            // Alarm
+            // 
+            this.Alarm.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Alarm.HeaderText = "Alarm";
+            this.Alarm.Name = "Alarm";
+            this.Alarm.ReadOnly = true;
             // 
             // MainForm
             // 
@@ -239,6 +279,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(789, 577);
+            this.Controls.Add(this.AlarmGrid);
             this.Controls.Add(this.pnlRemove);
             this.Controls.Add(this.btnRemoveTicker);
             this.Controls.Add(this.pnlAdd);
@@ -251,6 +292,7 @@
             this.pnlAdd.PerformLayout();
             this.pnlRemove.ResumeLayout(false);
             this.pnlRemove.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.AlarmGrid)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -275,6 +317,9 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Rate;
         private System.Windows.Forms.DataGridViewTextBoxColumn BollingerUpper;
         private System.Windows.Forms.DataGridViewTextBoxColumn BollingerLower;
+        private System.Windows.Forms.Label lblAdd;
+        private System.Windows.Forms.DataGridView AlarmGrid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Alarm;
 
     }
 }

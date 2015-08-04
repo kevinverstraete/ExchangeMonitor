@@ -50,7 +50,7 @@ namespace ExchangeMonitor.Engine.Web.Yql.Meta.Chart
         public string symbol { get; set; }
         public string exchangeName { get; set; }
         public string instrumentType { get; set; }
-        public int firstTradeDate { get; set; }
+        public int? firstTradeDate { get; set; }
         public int gmtoffset { get; set; }
         public string timezone { get; set; }
         public double previousClose { get; set; }

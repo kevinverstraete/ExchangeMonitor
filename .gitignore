@@ -1,10 +1,15 @@
 /ExchangeMonitor.Engine/bin/Debug
 /ExchangeMonitor.Engine/obj/Debug
+/ExchangeMonitor.Engine/bin/Release
+/ExchangeMonitor.Engine/obj/Release
 /ExchangeMonitor/*.user
 /ExchangeMonitor/bin/Debug
 /ExchangeMonitor/obj/Debug
+/ExchangeMonitor/bin/Release
+/ExchangeMonitor/obj/Release
 /ExchangeMonitorConsole/bin/Debug
 /ExchangeMonitorConsole/obj/Debug
-*.suo
+/ExchangeMonitorConsole/bin/Release
+/ExchangeMonitorConsole/obj/Release
 *.suo
 ExchangeMonitor.v12.suo

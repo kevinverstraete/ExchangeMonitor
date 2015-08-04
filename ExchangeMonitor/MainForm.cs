@@ -8,6 +8,7 @@ using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -28,10 +29,11 @@ namespace ExchangeMonitor
             materialSkinManager.ColorScheme =
               new ColorScheme(Primary.Grey800, Primary.Grey900, Primary.Grey500, Accent.LightBlue200, TextShade.WHITE);
 
+            PopulateSounds();
             _dataController.DataFetched += _dataControllerDataFetched;
-            LoadTickersFromConfig();
+            _dataController.BollingerAlarm += _dataControllerBollingerAlarm;
+            LoadFromConfig();
         }
-
         #region AddDataToGrid
         private void _dataControllerDataFetched(object sender, EventArgs e)
         {
@@ -84,6 +86,88 @@ namespace ExchangeMonitor
         }
         #endregion AddDataToGrid
 
+        #region Alarm
+        void _dataControllerBollingerAlarm(object sender, EventArgs e)
+        {
+            var data = (DataControllerEventArgs)e;
+            AddAalarm(data.Data);
+        }
+        private void AddAalarm(ExchangeMonitor.Engine.ViewModel.Data data)
+        {
+            if (InvokeRequired)
+            {
+                this.Invoke(new Action<ExchangeMonitor.Engine.ViewModel.Data>(AddAalarm), new object[] { data });
+                return;
+            }
+            try
+            {
+                var result = new StringBuilder();
+                result.Append("[").Append(DateTime.Now.ToString()).Append("] ").Append(data.Ticker).Append(Environment.NewLine);
+                if (data.BollingerUpper < data.Rate) 
+                {
+                    result.Append("Went over Bollinger.").Append(Environment.NewLine);
+                    PlaySound();
+                }
+                else if (data.BollingerLower > data.Rate)
+                {
+                    result.Append("Went under Bollinger.").Append(Environment.NewLine);
+                    PlaySound();
+                }
+                else
+                {
+                    result.Append("Restored within Bollinger").Append(Environment.NewLine);
+                }
+                result.Append("Rate: ").Append(data.Rate.ToString()).Append(Environment.NewLine);
+                result.Append("Bol. Upper: ").Append(data.BollingerUpper.ToString()).Append(Environment.NewLine);
+                result.Append("Bol. Lower: ").Append(data.BollingerLower.ToString());
+                AddAalarm(result.ToString());
+            }
+            catch
+            {
+                return;
+            }
+        }
+        private void AddAalarm(string data)
+        {
+            AlarmGrid.Rows.Insert(0);
+            AlarmGrid.Rows[0].Cells[0].Value = data;
+            AlarmGrid.Rows[0].Cells[0].Selected = true;
+            AlarmGrid.Refresh();
+        }
+        private void PopulateSounds()
+        {
+            cmdSound.Items.Add("No Sound");
+            cmdSound.Items.Add("Bike Horn");
+            cmdSound.Items.Add("Industrial");
+            cmdSound.Items.Add("Red Alert");
+            cmdSound.Items.Add("Strange");
+            cmdSound.Items.Add("Train Horn");
+        }
+        private void PlaySound()
+        {
+            var item = cmdSound.SelectedItem;
+            if (item != null)
+            {
+                var text = item.ToString();
+                if (text == "Bike Horn") PlaySound(Sounds.BikeHorn);
+                else if (text == "Industrial") PlaySound(Sounds.Industrial);
+                else if (text == "Red Alert") PlaySound(Sounds.RedAlert);
+                else if (text == "Strange") PlaySound(Sounds.Strange);
+                else if (text == "Train Horn") PlaySound(Sounds.TrainHornLow);
+            }
+        }
+
+        private void PlaySound(System.IO.UnmanagedMemoryStream sound)
+        {
+            var player = new SoundPlayer(sound);
+            player.Play();
+        }
+        private void cmdSound_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SaveToConfig();
+        }
+        #endregion Alarm
+
         #region AddPanel
         private void btnAddTicker_Click(object sender, EventArgs e)
         {
@@ -100,7 +184,7 @@ namespace ExchangeMonitor
         private void btnAddOk_Click(object sender, EventArgs e)
         {
             _dataController.AddTicker(tbAdd.Text);
-            SaveTickersToConfig();
+            SaveToConfig();
             pnlAdd.Hide();
         }
         #endregion AddPanel
@@ -121,7 +205,7 @@ namespace ExchangeMonitor
         private void btnRemoveOk_Click(object sender, EventArgs e)
         {
             _dataController.RemoveTicker(tbRemoveTicker.Text);
-            SaveTickersToConfig();
+            SaveToConfig();
             int selectedIndex = GetIndexForTicker(tbRemoveTicker.Text);
             if (selectedIndex != -1)
             {
@@ -132,17 +216,21 @@ namespace ExchangeMonitor
         #endregion RemovePanel      
 
         #region Config
-        public void SaveTickersToConfig()
+        public void SaveToConfig()
         {
             ConfigSetValue(_dataController.GetTickers());
+            ConfigSetValue(cmdSound.SelectedItem.ToString(), "Sound");
         }
-        public void LoadTickersFromConfig()
+        public void LoadFromConfig()
         {
             string[] tickers = ConfigReadValue().Split(',');
             foreach (var item in tickers)
             {
                 _dataController.AddTicker(item);
             }
+            string sound = ConfigReadValue("Sound");
+            if (cmdSound.Items.Contains(sound)) cmdSound.SelectedIndex = cmdSound.Items.IndexOf(sound);
+            else cmdSound.SelectedIndex = 2;
         }
         public static void ConfigSetValue(string value, string key = "Tickers")
         {

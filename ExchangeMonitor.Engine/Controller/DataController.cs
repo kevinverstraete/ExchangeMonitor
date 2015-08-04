@@ -10,6 +10,7 @@ namespace ExchangeMonitor.Engine.Controller
     {
         #region Private Members
         private Dictionary<string, ViewModel.Data> _tickers = new Dictionary<string, ViewModel.Data>();
+        private Dictionary<string, bool> _alarmStatus = new Dictionary<string, bool>();
 
         private IndicatorController _indicatorController = new IndicatorController();
         private InfoController _infoController = new InfoController();
@@ -36,6 +37,7 @@ namespace ExchangeMonitor.Engine.Controller
             _infoController.DataFetched += _infoControllerDataFetched;
             _rateController.DataFetched += _rateControllerDataFetched;
             _indicatorController.DataFetched += _indicatorControllerDataFetched;
+            this.DataFetched += DataControllerDataFetched;
         }
         private void DefineTimers()
         {
@@ -63,10 +65,22 @@ namespace ExchangeMonitor.Engine.Controller
             DataFetched(this, e);
         }
         public event EventHandler BollingerAlarm;
+        protected virtual void OnBollingerAlarm(ViewModel.Data data)
+        {
+            OnBollingerAlarm(new DataControllerEventArgs()
+            {
+                Success = true,
+                Data = data
+            });
+        }
+        private Object onBollingerAlarmLock = new Object();
         protected virtual void OnBollingerAlarm(EventArgs e)
         {
-            if (BollingerAlarm == null) return;
-            BollingerAlarm(this, e);
+            lock (onBollingerAlarmLock)
+            {
+                if (BollingerAlarm == null) return;
+                BollingerAlarm(this, e);
+            }
         }
         #endregion events
 
@@ -170,6 +184,39 @@ namespace ExchangeMonitor.Engine.Controller
             }
         }
         #endregion Controller Data Fecthed
+
+        #region Alarm
+        private Object DataControllerDataFetchedLock = new Object();
+        void DataControllerDataFetched(object sender, EventArgs e)
+        {
+            try
+            {
+                lock (DataControllerDataFetchedLock)
+                {
+                    var args = (DataControllerEventArgs)e;
+
+                    bool previousAlarm = false;
+                    _alarmStatus.TryGetValue(args.Data.Ticker, out previousAlarm);
+
+                    var currentAlarm = (args.Data.BollingerLower != 0
+                        && args.Data.BollingerUpper != 0
+                        && args.Data.Rate != 0
+                        && (args.Data.BollingerUpper < args.Data.Rate || args.Data.BollingerLower > args.Data.Rate));
+
+                    if (previousAlarm != currentAlarm)
+                    {
+                        OnBollingerAlarm(args.Data);
+                        if (_alarmStatus.ContainsKey(args.Data.Ticker)) _alarmStatus[args.Data.Ticker] = currentAlarm;
+                        else _alarmStatus.Add(args.Data.Ticker, currentAlarm);
+                    }
+                }
+            }
+            catch
+            {
+                return;
+            }
+        }
+        #endregion Alarm
     }
 
     public class DataControllerEventArgs : EventArgs

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.DataGrid = new System.Windows.Forms.DataGridView();
             this.LastUpdate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Ticker = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -49,6 +50,7 @@
             this.btnRemoveOk = new System.Windows.Forms.Button();
             this.AlarmGrid = new System.Windows.Forms.DataGridView();
             this.Alarm = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cmdSound = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.DataGrid)).BeginInit();
             this.pnlAdd.SuspendLayout();
             this.pnlRemove.SuspendLayout();
@@ -59,6 +61,8 @@
             // 
             this.DataGrid.AllowUserToAddRows = false;
             this.DataGrid.AllowUserToDeleteRows = false;
+            this.DataGrid.AllowUserToOrderColumns = true;
+            this.DataGrid.AllowUserToResizeRows = false;
             this.DataGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -73,45 +77,59 @@
             this.BollingerLower});
             this.DataGrid.Location = new System.Drawing.Point(2, 63);
             this.DataGrid.Margin = new System.Windows.Forms.Padding(2);
+            this.DataGrid.MultiSelect = false;
             this.DataGrid.Name = "DataGrid";
             this.DataGrid.ReadOnly = true;
             this.DataGrid.RowHeadersVisible = false;
             this.DataGrid.RowTemplate.Height = 24;
-            this.DataGrid.Size = new System.Drawing.Size(581, 480);
+            this.DataGrid.Size = new System.Drawing.Size(561, 480);
             this.DataGrid.TabIndex = 0;
             // 
             // LastUpdate
             // 
+            this.LastUpdate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
+            this.LastUpdate.FillWeight = 115.736F;
             this.LastUpdate.HeaderText = "Last Update";
+            this.LastUpdate.MinimumWidth = 38;
             this.LastUpdate.Name = "LastUpdate";
             this.LastUpdate.ReadOnly = true;
+            this.LastUpdate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.LastUpdate.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.LastUpdate.Width = 38;
             // 
             // Ticker
             // 
+            this.Ticker.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.Ticker.FillWeight = 96.85278F;
             this.Ticker.HeaderText = "Ticker";
             this.Ticker.Name = "Ticker";
             this.Ticker.ReadOnly = true;
+            this.Ticker.Width = 62;
             // 
             // TickerName
             // 
+            this.TickerName.FillWeight = 96.85278F;
             this.TickerName.HeaderText = "Name";
             this.TickerName.Name = "TickerName";
             this.TickerName.ReadOnly = true;
             // 
             // Rate
             // 
+            this.Rate.FillWeight = 96.85278F;
             this.Rate.HeaderText = "Rate";
             this.Rate.Name = "Rate";
             this.Rate.ReadOnly = true;
             // 
             // BollingerUpper
             // 
+            this.BollingerUpper.FillWeight = 96.85278F;
             this.BollingerUpper.HeaderText = "Bollinger Upper";
             this.BollingerUpper.Name = "BollingerUpper";
             this.BollingerUpper.ReadOnly = true;
             // 
             // BollingerLower
             // 
+            this.BollingerLower.FillWeight = 96.85278F;
             this.BollingerLower.HeaderText = "Bollinger Lower";
             this.BollingerLower.Name = "BollingerLower";
             this.BollingerLower.ReadOnly = true;
@@ -255,23 +273,40 @@
             this.AlarmGrid.AllowUserToAddRows = false;
             this.AlarmGrid.AllowUserToDeleteRows = false;
             this.AlarmGrid.AllowUserToOrderColumns = true;
+            this.AlarmGrid.AllowUserToResizeColumns = false;
+            this.AlarmGrid.AllowUserToResizeRows = false;
             this.AlarmGrid.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.AlarmGrid.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.AlarmGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.AlarmGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Alarm});
-            this.AlarmGrid.Location = new System.Drawing.Point(588, 63);
+            this.AlarmGrid.Location = new System.Drawing.Point(568, 63);
+            this.AlarmGrid.MultiSelect = false;
             this.AlarmGrid.Name = "AlarmGrid";
             this.AlarmGrid.RowHeadersVisible = false;
-            this.AlarmGrid.Size = new System.Drawing.Size(200, 480);
+            this.AlarmGrid.Size = new System.Drawing.Size(220, 480);
             this.AlarmGrid.TabIndex = 5;
             // 
             // Alarm
             // 
             this.Alarm.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Alarm.DefaultCellStyle = dataGridViewCellStyle1;
             this.Alarm.HeaderText = "Alarm";
             this.Alarm.Name = "Alarm";
             this.Alarm.ReadOnly = true;
+            // 
+            // cmdSound
+            // 
+            this.cmdSound.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdSound.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmdSound.FormattingEnabled = true;
+            this.cmdSound.Location = new System.Drawing.Point(596, 547);
+            this.cmdSound.Name = "cmdSound";
+            this.cmdSound.Size = new System.Drawing.Size(192, 21);
+            this.cmdSound.TabIndex = 6;
+            this.cmdSound.SelectedIndexChanged += new System.EventHandler(this.cmdSound_SelectedIndexChanged);
             // 
             // MainForm
             // 
@@ -279,6 +314,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(789, 577);
+            this.Controls.Add(this.cmdSound);
             this.Controls.Add(this.AlarmGrid);
             this.Controls.Add(this.pnlRemove);
             this.Controls.Add(this.btnRemoveTicker);
@@ -311,15 +347,16 @@
         private System.Windows.Forms.Button btnRemoveOk;
         private System.Windows.Forms.TextBox tbRemoveTicker;
         private System.Windows.Forms.Label lblRemove;
+        private System.Windows.Forms.Label lblAdd;
+        private System.Windows.Forms.DataGridView AlarmGrid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Alarm;
         private System.Windows.Forms.DataGridViewTextBoxColumn LastUpdate;
         private System.Windows.Forms.DataGridViewTextBoxColumn Ticker;
         private System.Windows.Forms.DataGridViewTextBoxColumn TickerName;
         private System.Windows.Forms.DataGridViewTextBoxColumn Rate;
         private System.Windows.Forms.DataGridViewTextBoxColumn BollingerUpper;
         private System.Windows.Forms.DataGridViewTextBoxColumn BollingerLower;
-        private System.Windows.Forms.Label lblAdd;
-        private System.Windows.Forms.DataGridView AlarmGrid;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Alarm;
+        private System.Windows.Forms.ComboBox cmdSound;
 
     }
 }

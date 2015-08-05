@@ -135,6 +135,7 @@ namespace ExchangeMonitor
             AlarmGrid.Rows.Insert(0);
             AlarmGrid.Rows[0].Cells[0].Value = data;
             AlarmGrid.Rows[0].Cells[0].Selected = true;
+            AlarmGrid.Rows[0].Cells[0].Selected = false;
             AlarmGrid.Rows[0].DefaultCellStyle.BackColor = color;
             AlarmGrid.Refresh();
         }

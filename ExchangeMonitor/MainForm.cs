@@ -197,8 +197,24 @@ namespace ExchangeMonitor
         #region RemovePanel
         private void btnRemoveTicker_Click(object sender, EventArgs e)
         {
+            var row = -1;
+            try
+            {
+                row = DataGrid.CurrentCell.RowIndex;
+            }
+            catch
+            {
+                row = -1;
+            }
+            if (row == -1)
+            {
+                tbRemoveTicker.Text = "";
+            }
+            else
+            {
+                tbRemoveTicker.Text = DataGrid.Rows[row].Cells[1].Value.ToString();
+            }
             pnlRemove.Show();
-            tbRemoveTicker.Text = "";
             tbRemoveTicker.Focus();
         }
 

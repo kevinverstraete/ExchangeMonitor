@@ -18,12 +18,19 @@ namespace ExchangeMonitor.Engine.Threading
         {
             lock (threadLock)
             {
-
-                if (_threads.ContainsKey(method.GetTicker())) return;
-                var tm = new ThreadModel<T>() { Thread = new Thread(new ThreadStart(method.Run)), Method = method };
-                _threads.Add(method.GetTicker(), tm);
-                method.Stop += MethodStop;
-                tm.Thread.Start();
+                try
+                {
+                    if (_threads.ContainsKey(method.GetTicker())) return;
+                    var tm = new ThreadModel<T>() { Thread = new Thread(new ThreadStart(method.Run)), Method = method };
+                    _threads.Add(method.GetTicker(), tm);
+                    method.Stop += MethodStop;
+                    tm.Thread.Start();
+                }
+                catch
+                {
+                    _threads.Remove(method.GetTicker());
+                    return;
+                }
             }
         }
 

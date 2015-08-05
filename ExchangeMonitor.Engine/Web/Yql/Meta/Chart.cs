@@ -9,25 +9,25 @@ namespace ExchangeMonitor.Engine.Web.Yql.Meta.Chart
     internal class Pre
     {
         public string timezone { get; set; }
-        public int end { get; set; }
-        public int start { get; set; }
-        public int gmtoffset { get; set; }
+        public int? end { get; set; }
+        public int? start { get; set; }
+        public int? gmtoffset { get; set; }
     }
 
     internal class Regular
     {
         public string timezone { get; set; }
-        public int end { get; set; }
-        public int start { get; set; }
-        public int gmtoffset { get; set; }
+        public int? end { get; set; }
+        public int? start { get; set; }
+        public int? gmtoffset { get; set; }
     }
 
     internal class Post
     {
         public string timezone { get; set; }
-        public int end { get; set; }
-        public int start { get; set; }
-        public int gmtoffset { get; set; }
+        public int? end { get; set; }
+        public int? start { get; set; }
+        public int? gmtoffset { get; set; }
     }
 
     internal class CurrentTradingPeriod
@@ -51,10 +51,10 @@ namespace ExchangeMonitor.Engine.Web.Yql.Meta.Chart
         public string exchangeName { get; set; }
         public string instrumentType { get; set; }
         public int? firstTradeDate { get; set; }
-        public int gmtoffset { get; set; }
+        public int? gmtoffset { get; set; }
         public string timezone { get; set; }
-        public double previousClose { get; set; }
-        public int scale { get; set; }
+        public double? previousClose { get; set; }
+        public int? scale { get; set; }
         public CurrentTradingPeriod currentTradingPeriod { get; set; }
         public TradingPeriods tradingPeriods { get; set; }
         public string dataGranularity { get; set; }
@@ -63,9 +63,9 @@ namespace ExchangeMonitor.Engine.Web.Yql.Meta.Chart
 
     internal class Params
     {
-        public double periodk { get; set; }
-        public double period { get; set; }
-        public double periodd { get; set; }
+        public double? periodk { get; set; }
+        public double? period { get; set; }
+        public double? periodd { get; set; }
     }
 
     internal class Stoch
@@ -77,8 +77,8 @@ namespace ExchangeMonitor.Engine.Web.Yql.Meta.Chart
 
     internal class Params2
     {
-        public double period { get; set; }
-        public double nstddev { get; set; }
+        public double? period { get; set; }
+        public double? nstddev { get; set; }
     }
 
     internal class Bollinger
@@ -91,7 +91,7 @@ namespace ExchangeMonitor.Engine.Web.Yql.Meta.Chart
 
     internal class Params3
     {
-        public double period { get; set; }
+        public double? period { get; set; }
     }
 
     internal class Sma
@@ -102,7 +102,7 @@ namespace ExchangeMonitor.Engine.Web.Yql.Meta.Chart
 
     internal class Params4
     {
-        public double period { get; set; }
+        public double? period { get; set; }
     }
 
     internal class Rsi
@@ -113,7 +113,7 @@ namespace ExchangeMonitor.Engine.Web.Yql.Meta.Chart
 
     internal class Params5
     {
-        public double period { get; set; }
+        public double? period { get; set; }
     }
 
     internal class Ema
@@ -124,9 +124,9 @@ namespace ExchangeMonitor.Engine.Web.Yql.Meta.Chart
 
     internal class Params6
     {
-        public double period2 { get; set; }
-        public double period1 { get; set; }
-        public double signal { get; set; }
+        public double? period2 { get; set; }
+        public double? period1 { get; set; }
+        public double? signal { get; set; }
     }
 
     internal class Macd
@@ -148,7 +148,7 @@ namespace ExchangeMonitor.Engine.Web.Yql.Meta.Chart
 
     internal class Params7
     {
-        public double period { get; set; }
+        public double? period { get; set; }
     }
 
     internal class Mfi
@@ -172,7 +172,7 @@ namespace ExchangeMonitor.Engine.Web.Yql.Meta.Chart
     internal class Result
     {
         public Meta meta { get; set; }
-        public List<int> timestamp { get; set; }
+        public List<int?> timestamp { get; set; }
         public Indicators indicators { get; set; }
     }
 

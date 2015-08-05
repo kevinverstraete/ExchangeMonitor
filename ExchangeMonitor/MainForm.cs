@@ -101,17 +101,20 @@ namespace ExchangeMonitor
             }
             try
             {
+                var color = Color.LightGray;
                 var result = new StringBuilder();
                 result.Append("[").Append(DateTime.Now.ToString()).Append("] ").Append(data.Ticker).Append(Environment.NewLine);
                 if (data.BollingerUpper < data.Rate) 
                 {
                     result.Append("Went over Bollinger.").Append(Environment.NewLine);
                     PlaySound();
+                    color = Color.LightGreen;
                 }
                 else if (data.BollingerLower > data.Rate)
                 {
                     result.Append("Went under Bollinger.").Append(Environment.NewLine);
                     PlaySound();
+                    color = Color.LightPink;
                 }
                 else
                 {
@@ -120,18 +123,19 @@ namespace ExchangeMonitor
                 result.Append("Rate: ").Append(data.Rate.ToString()).Append(Environment.NewLine);
                 result.Append("Bol. Upper: ").Append(data.BollingerUpper.ToString()).Append(Environment.NewLine);
                 result.Append("Bol. Lower: ").Append(data.BollingerLower.ToString());
-                AddAalarm(result.ToString());
+                AddAalarm(result.ToString(), color);
             }
             catch
             {
                 return;
             }
         }
-        private void AddAalarm(string data)
+        private void AddAalarm(string data, Color color)
         {
             AlarmGrid.Rows.Insert(0);
             AlarmGrid.Rows[0].Cells[0].Value = data;
             AlarmGrid.Rows[0].Cells[0].Selected = true;
+            AlarmGrid.Rows[0].DefaultCellStyle.BackColor = color;
             AlarmGrid.Refresh();
         }
         private void PopulateSounds()

@@ -4,3 +4,7 @@ new api's to check:
 
 http://dev.markitondemand.com/Api/v2/Quote/jsonp?symbol=GOOG&callback=myFunction
 
+
+
+
+http://www.webservicex.net/stockquote.asmx?op=GetQuote

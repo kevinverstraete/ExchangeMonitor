@@ -71,17 +71,18 @@ namespace ExchangeMonitor.Engine.Web.Controller
             if (localTicker.EndsWith("=X")) localTicker = localTicker.Substring(0, localTicker.Length - 2);
             var x = Request.XchangeForSingle(localTicker);
             double test = 0.0;
-            if (Double.TryParse(x.Results.Rate.FirstOrDefault().XRate, NumberStyles.Number, provider, out test))
+            if (x.Results.Rate.Count > 0)
             {
-                var prop = new TickerProperties() { UsesYahooXchange = true, KeyToUse = localTicker };
-                _tickerProperties.Add(ticker, prop);
-                return prop;
+                if (Double.TryParse(x.Results.Rate.FirstOrDefault().XRate, NumberStyles.Number, provider, out test))
+                {
+                    var prop = new TickerProperties() { UsesYahooXchange = true, KeyToUse = localTicker };
+                    _tickerProperties.Add(ticker, prop);
+                    return prop;
+                }
             }
-            else {
-                var prop = new TickerProperties() { UsesYahooXchange = false, KeyToUse = localTicker };
-                _tickerProperties.Add(ticker,prop);
-                return prop;
-            }
+            var defprop = new TickerProperties() { UsesYahooXchange = false, KeyToUse = localTicker };
+            _tickerProperties.Add(ticker, defprop);
+            return defprop;
         }
 
         private void MethodDataFetched(object sender, EventArgs e)

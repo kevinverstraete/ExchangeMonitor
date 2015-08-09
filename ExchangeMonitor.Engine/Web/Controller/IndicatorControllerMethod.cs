@@ -1,4 +1,5 @@
 ﻿using ExchangeMonitor.Engine.Threading;
+using ExchangeMonitor.Engine.Web.DataTypes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,11 +23,10 @@ namespace ExchangeMonitor.Engine.Web.Controller
                 try
                 {
                     var yqlResponse = Web.Yql.YqlChartCatcher.Catch(ticker);
-                    if (yqlResponse.Success)
+                    if (yqlResponse.Success.State == SuccessState.Success)
                     {
                         foreach (var chart in yqlResponse.Data.chart.result)
                         {
-
                             var response = new IndicatorControllerResponse();
                             response.Indicators = new List<Indicator>();
                             response.RangeIndicators = new List<RangeIndicator>();

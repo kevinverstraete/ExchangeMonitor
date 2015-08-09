@@ -7,6 +7,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using ExchangeMonitor.Engine.Web.Yql.Meta.Chart;
+using ExchangeMonitor.Engine.Web.DataTypes;
 
 namespace ExchangeMonitor.Engine.Web.Yql
 {
@@ -14,36 +15,80 @@ namespace ExchangeMonitor.Engine.Web.Yql
     {
         internal static YqlChartResponse Catch(string ticker)
         {
+            #region Validate ticker
             if (string.IsNullOrEmpty(ticker))
-                return new YqlChartResponse();
+                return new YqlChartResponse()
+                {
+                    Success = new Success()
+                    {
+                        State = SuccessState.NoData,
+                        Information = "No Ticker was given"
+                    }
+                };
+            #endregion Validate ticker
 
+            #region Get Data in raw form --> string reply
+            string reply = string.Empty;
             try
             {
-                string url = BuildUri(ticker);
-                var client = new WebClient();
-                string reply = client.DownloadString(url);
-                return new YqlChartResponse() { 
-                    Success = true, 
-                    Data = Deserialize(reply)
+                reply = DownloadData(ticker);
+            }
+            catch (Exception ex)
+            {
+                return new YqlChartResponse()
+                {
+                    Success = new Success()
+                    {
+                        State = SuccessState.Error,
+                        Information = "Error During Data Download",
+                        ErrorInformation = ex.InnerException.ToString()
+                    }
                 };
             }
-            catch
+            #endregion Get Data in raw form --> string reply
+
+            #region Convert raw data to objects --> RootObject data
+            var data = new RootObject();
+            try
             {
-                return new YqlChartResponse();
+                data = Deserialize(reply);
             }
+            catch (Exception ex)
+            {
+                return new YqlChartResponse()
+                {
+                    Success = new Success()
+                    {
+                        State = SuccessState.Error,
+                        Information = "Error During Deserializing",
+                        ErrorInformation = ex.InnerException.ToString() + "\n\nData: " + reply
+                    }
+                };
+            }
+            #endregion Convert raw data to objects --> RootObject data
+
+            #region Return
+            return new YqlChartResponse()
+            {
+                Success = new Success() { State = SuccessState.Success},
+                Data = data
+            };
+            #endregion Return
         }
 
-        private static RootObject Deserialize(string json)
+        #region Download Data
+        private static string DownloadData(string ticker)
         {
-            Newtonsoft.Json.JsonSerializer s = new JsonSerializer();
-            return s.Deserialize<RootObject>(new JsonTextReader(new StringReader(json)));
-        }
-
+            string url = BuildUri(ticker);
+            var client = new WebClient();
+            return client.DownloadString(url);
+        }      
         private static string BuildUri(string ticker)
         {
             var pipeSep = "%7C";
             var uri = new StringBuilder();
-            uri.Append(@"https://finance-yql.media.yahoo.com/v7/finance/chart/").Append(ticker);
+            uri.Append(@"https://finance-yql.media.yahoo.com/v7/finance/chart/");
+            uri.Append(ticker);
             //uri.Append("?").Append("interval=1m");
             uri.Append("?").Append("interval=5m");
             uri.Append(@"&").Append("indicators=quote");
@@ -61,11 +106,25 @@ namespace ExchangeMonitor.Engine.Web.Yql
             uri.Append(@"&").Append("corsDomain=finance.yahoo.com");
             return uri.ToString();
         }
+        #endregion Download Data
+
+        #region Deserilize
+        private static RootObject Deserialize(string json)
+        {
+            Newtonsoft.Json.JsonSerializer s = new JsonSerializer();
+            return s.Deserialize<RootObject>(new JsonTextReader(new StringReader(json)));
+        }
+        #endregion Deserilize
     }
 
     internal class YqlChartResponse
     {
-        public bool Success { get; set; }
+        public Success Success { get; set; }
         public RootObject Data { get; set; }
+        internal YqlChartResponse()
+        {
+            Success = new Success();
+            Data = new RootObject();
+        }
     }
 }

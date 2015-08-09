@@ -63,6 +63,7 @@
     <Compile Include="Web\Controller\RateControllerResponse.cs" />
     <Compile Include="Web\Controller\RateControllerYahooThreadMethod.cs" />
     <Compile Include="Web\Controller\RateController.cs" />
+    <Compile Include="Web\DataTypes\Success.cs" />
     <Compile Include="Web\Html\HtmlDataCatcher.cs" />
     <Compile Include="Web\Controller\InfoController.cs" />
     <Compile Include="Web\YahooApis\Query\Request.cs" />
